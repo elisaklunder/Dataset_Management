@@ -2,13 +2,15 @@ import os
 import sys
 
 sys.path.append(os.getcwd() + "/src/")
-# from example import ExampleClass
+from src.image_class import ImageDataset
 
 
 def main():
-    poly_dataset = BaseDataset()
-    root = "C:\Users\elikl\Documents\Università\yr2\2 - OOP\targets.csv"
-    poly_data = poly_dataset.load_data(root)
+    poly_dataset = ImageDataset()
+    root_path = r"C:\Users\elikl\Documents\Università\yr2\2 - OOP\oop-final-project-group-7"
+    labels_path = r"C:\Users\elikl\Documents\Università\yr2\2 - OOP\poly_targets_classification.csv"
+    poly_dataset.load_data(root_path, "eager", "csv", labels_path)
+    print(len(poly_dataset))
 
 if __name__ == "__main__":
     main()
