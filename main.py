@@ -6,8 +6,8 @@ sys.path.append(os.getcwd() + "/src/")
 
 
 def main():
-    print("Hello World!")
-
+    poly_dataset = BaseDataset()
+    poly_data = poly_dataset.load_data(root = "C:\Users\elikl\Documents\Università\yr2\2 - OOP\targets.csv")
 
 if __name__ == "__main__":
     main()

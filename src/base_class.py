@@ -3,14 +3,13 @@ Image(root adjfnadkbjfa fafb)
 
 class BaseDataset:
     def __init__(self, root: str, labels: bool = False, format: str = "csv", strategy: str):
-        self.root = root #is this private? cause the user shouldn't access it after the root was set
+        self._root = root #is this private? cause the user shouldn't access it after the root was set
         self.labels_bool = labels
         self.format = format
         self._data = [] #getters and setters
         self._labels = []
 
 
-        
      #####THIS COULD BE A CLASS THAT IS CALLED IN HERE######
         #with setters we could set the self._data  and the self_labels if needed
     def _lazy_load_data(self):
