@@ -22,10 +22,11 @@ class BaseDataset:
 
     def _lazy_load_data(self, batch_size):
         if self.format == "csv":
-            # batches + let user chose about the last batch
+            # batches + let user chose about the last batch --> this is actually not the case --> it only means that the data is uploaded when is actually used.
             data_list = os.listdir(self.root)
             if len(data_list) % batch_size != 0:
                 # ask the user what to do about the last batchpass
+                pass
             else: 
                 for i in range(len(data_list) // batch_size):
                     self.data = data_list[i:i+batch_size]
@@ -68,6 +69,7 @@ class BaseDataset:
             self._csv_to_labels()
 
     def __getitem__(self, index: int):
+        #different if data is loaded in eager way or lazy way
         if bool(self.data):
             if bool(self.labels):
                 return (self.labels[index], self.data[index])
@@ -75,6 +77,7 @@ class BaseDataset:
                 return self.data[index]
 
     def __len__(self):
+        #different if data is loaded in eager way or lazy way
         return len(self.data)
 
     def train_test_split(self, train_size, test_size):
