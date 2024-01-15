@@ -7,6 +7,7 @@ import random
 class BaseDataset:
     def __init__(self):
         self._root = None
+        self._labels_path = None
         self._format = None
         self._data = []
 
@@ -14,69 +15,50 @@ class BaseDataset:
         pass
 
     def _csv_to_labels(self):
-        labels = []
-        file_list = os.listdir(self._root)
-        csv_path = None
-        for file in file_list:
-            if file.endswith(".csv"):
-                csv_path = os.path.join(self._root, file)
-                break
-        if csv_path is not None:
-            with open(csv_path, 'r') as file:
+        if self._labels_path is not None:
+            labels = []
+            with open(self._labels_path, "r") as file:
                 csv_reader = csv.reader(file)
                 for row in csv_reader:
                     labels.append(row)  # list of tuples?
-            return labels
+            labels_dict = {item[1]: item[2] for item in labels}
+            self._data = [
+                (image, labels_dict[filename])
+                for image, filename in self._data
+            ]
         else:
-            #error path not correct or no csv file found
-            pass
+            self._data = [image for image, _ in self._data]
 
     def _lazy_load_data(self):
         if self._format == "csv":
             # Store filenames for lazy loading
-            self._data = [filename for filename in os.listdir(self._root)]
+            self._data = [
+                (filename, filename) for filename in os.listdir(self._root)
+            ]
+            self._csv_to_labels()
         elif self._format == "hierarchical":
             # Store class directories and filenames for lazy loading
             self._data = [
-                (class_dir, filename)
+                (filename, class_dir)
                 for class_dir in os.listdir(self._root)
-                for filename in os.listdir(class_dir)
+                for filename in os.listdir(os.path.join(self._root, class_dir))
             ]
-
-    """def _lazy_load_data_maybe(self, batch_size):
-        if self._format == "csv":
-            # batches + let user chose about the last batch --> this is
-            # actually not the case --> it only means that the data is
-            # uploaded when is actually used.
-            data_list = os.listdir(self._root)
-            if len(data_list) % batch_size != 0:
-                # ask the user what to do about the last batchpass
-                pass
-            else:
-                for i in range(len(data_list) // batch_size):
-                    self._data = data_list[i : i + batch_size]
-                    self.__eager_load_data()
-                    i += batch_size
-                pass
-        elif self._format == "hierarchical":
-            # something for the last bath again
-            pass"""
 
     def _eager_load_data(self):
         if self._format == "csv":
             for filename in os.listdir(self._root):
-                self._read_data_file(filename)
+                image, filename = self._read_data_file(self._root, filename)
+                self._data.append((image, filename))
+            self._csv_to_labels()
+
         elif self._format == "hierarchical":
             # iterate over every class folder
-            for class_dir in os.listdir(self._root):
-                # get the class name from the directory name
-                class_name = os.path.basename(class_dir)
+            for class_name in os.listdir(self._root):
+                class_dir = os.path.join(self._root, class_name)
                 # iterate over every file
-                for filename in os.listdir(class_name):
-                    self._read_data_file(filename)
-                    self._labels.append(
-                        (filename, class_name)
-                    )  # list or tuple?
+                for filename in os.listdir(class_dir):
+                    image, _ = self._read_data_file(class_dir, filename)
+                    self._data.append((image, class_name))
 
     def load_data(self, root, strategy, format, labels_path=None):
         # the user should be allowed to input a label path only if the format
@@ -90,14 +72,6 @@ class BaseDataset:
             self._eager_load_data()
         elif strategy == "lazy":
             self._lazy_load_data()
-
-        if self._labels_path is not None:
-            labels = self._csv_to_labels()
-            labels_dict = {item[1]: item[2] for item in labels}
-            self._data = [
-                (image, labels_dict[filename])
-                for image, filename in self._data
-            ]
 
     def __getitem__(self, index: int):
         # different if data is loaded in eager way or lazy way

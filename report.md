@@ -1,8 +1,8 @@
 # Report
 
-should data and labels (when there are labels) be two different lists or one single one or a dictionary or smth
+# should data and labels (when there are labels) be two different lists or one single one or a dictionary or smth
 
-which attributes should be private/bublic? (especially root, data, labels)
+# which attributes should be private/bublic? (especially root, data, labels)
 
 should we have getters setters for all private ones?
 
@@ -10,9 +10,9 @@ should we have getters setters for all private ones?
 
 how are things getting appended in the labels list, both in csv format and hierarchical
 
-lazy loader how does it work? should it have a load_batch function or do it all in load_data? or maybe we use open/load in the libraries themselves?
+# -lazy loader how does it work? should it have a load_batch function or do it all in load_data? or maybe we use open/load in the libraries themselves?
 
-should train test split work so that it only splits the already loaded data? 
+# should train test split work so that it only splits the already loaded data? 
 
 # for eli
 why cant I install librosa?
