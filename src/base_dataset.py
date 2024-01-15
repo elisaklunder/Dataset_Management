@@ -10,6 +10,7 @@ class BaseDataset:
         self._labels_path = None
         self._format = None
         self._data = []
+        self._strategy = None
 
     def _read_data_file(self, filename):
         pass
@@ -20,7 +21,7 @@ class BaseDataset:
             with open(self._labels_path, "r") as file:
                 csv_reader = csv.reader(file)
                 for row in csv_reader:
-                    labels.append(row)  # list of tuples?
+                    labels.append(row)
             labels_dict = {item[1]: item[2] for item in labels}
             self._data = [
                 (image, labels_dict[filename])
@@ -33,7 +34,8 @@ class BaseDataset:
         if self._format == "csv":
             # Store filenames for lazy loading
             self._data = [
-                (filename, filename) for filename in os.listdir(self._root)
+                (os.path.join(self._root, filename), filename)
+                for filename in os.listdir(self._root)
             ]
             self._csv_to_labels()
         elif self._format == "hierarchical":
@@ -68,9 +70,9 @@ class BaseDataset:
         self._format = format
         self._labels_path = labels_path
 
-        if strategy == "eager":
+        if self._strategy == "eager":
             self._eager_load_data()
-        elif strategy == "lazy":
+        elif self._strategy == "lazy":
             self._lazy_load_data()
 
     def __getitem__(self, index: int):
@@ -79,7 +81,17 @@ class BaseDataset:
             # raise error no data
             pass
         try:
-            return self._data[index]
+            if self._strategy == "eager":
+                return self._data[index]
+            elif self._strategy == "lazy":
+                if bool(self._labels_path):
+                    file_dir, target = self._data[index]
+                    data, _ = self._read_data_file(self._root, file_dir)
+                    return data, target
+                else:
+                    file_dir = self._data[index]
+                    data, _ = self._read_data_file(self._root, file_dir)
+                    return data
         except:
             # raise error data out of index
             pass
