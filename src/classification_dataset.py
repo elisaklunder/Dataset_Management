@@ -16,7 +16,7 @@ class ClassificationDataset(BaseDataset):
             print("in the lazy loader")
             # Store class directories and filenames for lazy loading
             self._data = [
-                (filename, class_dir)
+                (os.path.join(self._root, filename), class_dir)
                 for class_dir in os.listdir(self._root)
                 for filename in os.listdir(os.path.join(self._root, class_dir))
             ]

@@ -3,6 +3,4 @@ from src.classification_dataset import ClassificationDataset
 
 
 class ImageClassification(ClassificationDataset, ImageDataset):
-    # implement error handling
     pass
-
