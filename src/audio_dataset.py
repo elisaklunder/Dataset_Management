@@ -9,4 +9,4 @@ class AudioDataset(BaseDataset):
 
     def _read_data_file(self, filename):
         audio_tuple = librosa.load(filename)
-        self.data.append(audio_tuple)
+        return audio_tuple, filename
