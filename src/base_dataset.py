@@ -12,7 +12,7 @@ class BaseDataset:
         self._data = []
         self._strategy = None
 
-    def _read_data_file(self, filename):
+    def _read_data_file(self):
         pass
 
     def _csv_to_labels(self):
@@ -31,38 +31,21 @@ class BaseDataset:
             self._data = [image for image, _ in self._data]
 
     def _lazy_load_data(self):
-        if self._format == "csv":
-            # Store filenames for lazy loading
-            self._data = [
-                (os.path.join(self._root, filename), filename)
-                for filename in os.listdir(self._root)
-            ]
-            self._csv_to_labels()
-        elif self._format == "hierarchical":
-            # Store class directories and filenames for lazy loading
-            self._data = [
-                (filename, class_dir)
-                for class_dir in os.listdir(self._root)
-                for filename in os.listdir(os.path.join(self._root, class_dir))
-            ]
+        self._data = [
+            (os.path.join(self._root, filename), filename)
+            for filename in os.listdir(self._root)
+        ]
+        self._csv_to_labels()
 
     def _eager_load_data(self):
-        if self._format == "csv":
-            for filename in os.listdir(self._root):
-                image, filename = self._read_data_file(self._root, filename)
-                self._data.append((image, filename))
-            self._csv_to_labels()
+        for filename in os.listdir(self._root):
+            image, filename = self._read_data_file(self._root, filename)
+            self._data.append((image, filename))
+        self._csv_to_labels()
 
-        elif self._format == "hierarchical":
-            # iterate over every class folder
-            for class_name in os.listdir(self._root):
-                class_dir = os.path.join(self._root, class_name)
-                # iterate over every file
-                for filename in os.listdir(class_dir):
-                    image, _ = self._read_data_file(class_dir, filename)
-                    self._data.append((image, class_name))
+        
 
-    def load_data(self, root, strategy, format, labels_path=None):
+    def load_data(self, root, strategy, format="csv", labels_path=None):
         # the user should be allowed to input a label path only if the format
         # is csv
         self._root = root
@@ -73,7 +56,9 @@ class BaseDataset:
         if self._strategy == "eager":
             self._eager_load_data()
         elif self._strategy == "lazy":
+            print("in the baseclass")
             self._lazy_load_data()
+            print(self._data)
 
     def __getitem__(self, index: int):
         # different if data is loaded in eager way or lazy way
@@ -115,3 +100,5 @@ class BaseDataset:
             test_data = self._data[train_len : train_len + test_len]
 
         return train_data, test_data
+    
+

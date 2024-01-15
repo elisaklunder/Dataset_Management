@@ -2,5 +2,5 @@ from base_dataset import BaseDataset
 
 
 class RegressionDataset(BaseDataset):
-    # bruh
+    # nothing new if not error handling
     pass

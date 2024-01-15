@@ -2,7 +2,7 @@ from image_dataset import ImageDataset
 from src.classification_dataset import ClassificationDataset
 
 
-class ImageClassification(ImageDataset, ClassificationDataset):
+class ImageClassification(ClassificationDataset, ImageDataset):
     # implement error handling
     pass
 
