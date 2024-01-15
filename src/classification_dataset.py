@@ -1,6 +1,6 @@
 from base_dataset import BaseDataset
 
 
-class Classification(BaseDataset):
+class ClassificationDataset(BaseDataset):
     #implement hierarchical
     pass

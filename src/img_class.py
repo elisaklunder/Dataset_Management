@@ -1,8 +1,8 @@
 from image_dataset import ImageDataset
-from classification import Classification
+from src.classification_dataset import ClassificationDataset
 
 
-class ImageClassification(ImageDataset, Classification):
+class ImageClassification(ImageDataset, ClassificationDataset):
     # implement error handling
     pass
 
