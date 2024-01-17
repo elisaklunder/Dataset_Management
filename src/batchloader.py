@@ -37,3 +37,4 @@ class BatchLoader():
         print(f"number of batches that can be created using {self._batch_size} as batch size")
         return self._data//self._batch_size
                  
+dataset.data[1][1]

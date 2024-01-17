@@ -10,9 +10,8 @@ class BaseDataset:
         self._root = None
         self._labels_path = None
         self._format = None
-        self._strategy = None
         self._data = []
-        self._targets = []
+        self._strategy = None
 
     @property
     def data(self):
@@ -22,32 +21,21 @@ class BaseDataset:
     def data(self, new_data):
         self._data = new_data
 
-    @property
-    def targets(self):
-        return self._targets
-
-    @targets.setter
-    def targets(self, new_targets):
-        self._targets = new_targets
-
     def _read_data_file(self, path, filename):
         # error
         pass
 
     def _csv_to_labels(self):
         if self._labels_path is not None:
+            labels = []
             with open(self._labels_path, "r") as file:
                 csv_reader = csv.reader(file)
                 for row in csv_reader:
-                    self.targets.append(row)
-            data = []
-            data_dict = {filename: data for data, filename in self.data}
-            for index, filename in enumerate(self.targets):
-                if index != 0:  # because first row contains names of columns
-                    data.append(data_dict[filename[1]])
-            self.data = copy.deepcopy(data)
-            self.targets = [item[2] for item in self.targets]
-
+                    labels.append(row)
+            labels_dict = {item[1]: item[2] for item in labels}
+            self.data = [
+                (image, labels_dict[filename]) for image, filename in self.data
+            ]
         else:
             self.data = [image for image, _ in self.data]
 
@@ -60,13 +48,13 @@ class BaseDataset:
 
     def _eager_load_data(self):
         for filename in os.listdir(self._root):
-            image = self._read_data_file(self._root, filename)
+            image, filename = self._read_data_file(self._root, filename)
             self.data.append((image, filename))
         self._csv_to_labels()
 
     def load_data(self, root, strategy, format="csv", labels_path=None):
         # the user should be allowed to input a label path only if the format
-        # is csv --> IMPLEMENT ERROR
+        # is csv
         self._root = root
         self._strategy = strategy
         self._format = format
@@ -84,23 +72,23 @@ class BaseDataset:
             pass
         try:
             if self._strategy == "eager":
-                return self.data[index], self.targets[index]
+                return self.data[index]
             elif self._strategy == "lazy":
                 if bool(self._labels_path):
-                    file_dir = self.data[index]
-                    data = self._read_data_file(self._root, file_dir)
-                    return data, self.targets[index]
+                    file_dir, target = self.data[index]
+                    data, _ = self._read_data_file(self._root, file_dir)
+                    return data, target
                 elif self._format == "hierarchical":
-                    file_dir = self.data[index]
+                    file_dir, target = self.data[index]
+                    root_path = os.path.join(self._root, target)
                     file_name = os.path.basename(file_dir)
-                    folder_dir = os.path.dirname(file_dir)
-                    data = self._read_data_file(folder_dir, file_name)
-                    return data, self.targets[index]
+                    data, _ = self._read_data_file(root_path, file_name)
+                    return data, target
                 else:
                     file_dir = self.data[index]
-                    data = self._read_data_file(self._root, file_dir)
+                    data, _ = self._read_data_file(self._root, file_dir)
                     return data
-        except Exception as e:
+        except:
             # raise error data out of index
             pass
 
@@ -117,10 +105,10 @@ class BaseDataset:
         if shuffle:
             shuffled_data = random.sample(self.data, data_len)
             train_data = shuffled_data[:train_len]
-            test_data = shuffled_data[train_len: train_len + test_len]
+            test_data = shuffled_data[train_len : train_len + test_len]
         else:
             train_data = self.data[:train_len]
-            test_data = self.data[train_len: train_len + test_len]
+            test_data = self.data[train_len : train_len + test_len]
         train = copy.deepcopy(self)
         train.data = train_data
         test = copy.deepcopy(self)

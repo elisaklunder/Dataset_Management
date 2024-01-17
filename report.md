@@ -6,6 +6,11 @@
 
 should we have getters setters for all private ones? even for attributes we just use to compare?
 
+should the user be allowed to change one data point/ one target?
+
+do all csv files have in position [0] the index?? always?????
+do all csv start with a row of column names?
+
 # (in the hierarchical thing) if the classes need to be in the root, how tf do we recognize them??
 
 # how are things getting appended in the labels list, both in csv format and hierarchical

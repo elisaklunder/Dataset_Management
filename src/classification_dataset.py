@@ -1,5 +1,6 @@
-from base_dataset import BaseDataset
 import os
+
+from base_dataset import BaseDataset
 
 
 class ClassificationDataset(BaseDataset):
@@ -13,26 +14,25 @@ class ClassificationDataset(BaseDataset):
             super()._lazy_load_data()
 
         elif self._format == "hierarchical":
-            print("in the lazy loader")
             # Store class directories and filenames for lazy loading
-            self._data = [
-                (os.path.join(self._root, filename), class_dir)
-                for class_dir in os.listdir(self._root)
-                for filename in os.listdir(os.path.join(self._root, class_dir))
-            ]
-
+            for class_name in os.listdir(self._root):
+                for filename in os.listdir(
+                    os.path.join(self._root, class_name)
+                ):
+                    class_path = os.path.join(self._root, class_name)
+                    self.data.append(os.path.join(class_path, filename))
+                    self.targets.append(class_name)
 
     def _eager_load_data(self):
         if self._format == "csv":
             super()._eager_load_data()
-    
+
         elif self._format == "hierarchical":
             # iterate over every class folder
             for class_name in os.listdir(self._root):
                 class_dir = os.path.join(self._root, class_name)
                 # iterate over every file
                 for filename in os.listdir(class_dir):
-                    image, _ = self._read_data_file(class_dir, filename)
-                    self._data.append((image, class_name))
-
-    pass
+                    data = self._read_data_file(class_dir, filename)
+                    self.data.append(data)
+                    self.targets.append(class_name)
