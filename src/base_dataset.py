@@ -30,7 +30,7 @@ class BaseDataset:
     def targets(self, new_targets):
         self._targets = new_targets
 
-    def _read_data_file(self, path, filename):
+    def _read_data_file(self):
         # error
         pass
 
@@ -47,7 +47,6 @@ class BaseDataset:
                     data.append(data_dict[filename[1]])
             self.data = copy.deepcopy(data)
             self.targets = [item[2] for item in self.targets]
-
         else:
             self.data = [image for image, _ in self.data]
 
@@ -60,7 +59,8 @@ class BaseDataset:
 
     def _eager_load_data(self):
         for filename in os.listdir(self._root):
-            image = self._read_data_file(self._root, filename)
+            path = os.path.join(self._root, filename)
+            image = self._read_data_file(path)
             self.data.append((image, filename))
         self._csv_to_labels()
 
@@ -77,32 +77,26 @@ class BaseDataset:
         elif self._strategy == "lazy":
             self._lazy_load_data()
 
+    def _get_item_helper(self, data, index):
+        if bool(self._labels_path) or self._format == "hierarchical":
+            return data, self.targets[index]
+        else:
+            return data
+
     def __getitem__(self, index: int):
         # different if data is loaded in eager way or lazy way
         if not bool(self.data):
-            # raise error no data
-            pass
+            raise IndexError("No data available.")
         try:
             if self._strategy == "eager":
-                return self.data[index], self.targets[index]
+                data = self.data[index]
             elif self._strategy == "lazy":
-                if bool(self._labels_path):
-                    file_dir = self.data[index]
-                    data = self._read_data_file(self._root, file_dir)
-                    return data, self.targets[index]
-                elif self._format == "hierarchical":
-                    file_dir = self.data[index]
-                    file_name = os.path.basename(file_dir)
-                    folder_dir = os.path.dirname(file_dir)
-                    data = self._read_data_file(folder_dir, file_name)
-                    return data, self.targets[index]
-                else:
-                    file_dir = self.data[index]
-                    data = self._read_data_file(self._root, file_dir)
-                    return data
-        except Exception as e:
-            # raise error data out of index
-            pass
+                file_dir = self.data[index]
+                data = self._read_data_file(file_dir)
+
+            return self._get_item_helper(data, index)
+        except IndexError:
+            raise IndexError("Index out of range.")
 
     def __len__(self):
         # different if data is loaded in eager way or lazy way
@@ -112,17 +106,23 @@ class BaseDataset:
         # raise error: data hasn't been loaded yet
         data_len = len(self.data)
         train_len = int(data_len * train_size)
-        test_len = int(data_len * test_size)
+
+        train = copy.deepcopy(self)
+        test = copy.deepcopy(self)
 
         if shuffle:
-            shuffled_data = random.sample(self.data, data_len)
-            train_data = shuffled_data[:train_len]
-            test_data = shuffled_data[train_len: train_len + test_len]
-        else:
-            train_data = self.data[:train_len]
-            test_data = self.data[train_len: train_len + test_len]
-        train = copy.deepcopy(self)
-        train.data = train_data
-        test = copy.deepcopy(self)
-        test.data = test_data
+            if bool(self.targets):
+                zipped_data = list(zip(self.data, self.targets))
+                shuffled_data = random.sample(zipped_data, data_len)
+                self.data, self.targets = zip(*shuffled_data)
+            else:
+                self.data = random.sample(self.data, data_len)
+
+        train.data = self.data[:train_len]
+        test.data = self.data[train_len::]
+
+        if bool(self.targets):
+            train.targets = self.targets[:train_len]
+            test.targets = self.targets[train_len::]
+
         return train, test

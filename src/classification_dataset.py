@@ -33,6 +33,7 @@ class ClassificationDataset(BaseDataset):
                 class_dir = os.path.join(self._root, class_name)
                 # iterate over every file
                 for filename in os.listdir(class_dir):
-                    data = self._read_data_file(class_dir, filename)
+                    path = os.path.join(class_dir, filename)
+                    data = self._read_data_file(path)
                     self.data.append(data)
                     self.targets.append(class_name)
