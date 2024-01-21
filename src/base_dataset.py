@@ -20,6 +20,7 @@ class BaseDataset:
 
     @data.setter
     def data(self, new_data):
+        # type check for new data
         self._data = new_data
 
     @property
@@ -28,11 +29,13 @@ class BaseDataset:
 
     @targets.setter
     def targets(self, new_targets):
+        # type check for new argets
         self._targets = new_targets
 
     def _read_data_file(self):
-        # error
-        pass
+        raise NotImplementedError(
+            "Method to read in the data needs to be implemented"
+        )
 
     def _csv_to_labels(self):
         if self._labels_path is not None:

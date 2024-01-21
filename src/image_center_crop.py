@@ -16,11 +16,11 @@ class ImageCenterCrop(PreprocessingTechniqueABC):
         H, W = np.shape(image)
         H_center = H // 2
         W_center = W // 2
-        bottom = max(H_center - self._height // 2, 0)
-        top = min(H_center + self._height // 2, H)
+        top = max(H_center - self._height // 2, 0)
+        bottom = min(H_center + self._height // 2, H)
         left = max(W_center - self._width // 2, 0)
         right = min(W_center + self._width // 2, W)
-        cropped_image = image[bottom:top, left:right]
+        cropped_image = image[top:bottom, left:right]
         return cropped_image
 
     def _dataset_processing(self, dataset):
