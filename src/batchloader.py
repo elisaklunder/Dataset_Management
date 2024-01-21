@@ -7,7 +7,7 @@ class BatchLoader:
         self._fashion = None
         self._dataset = None
         self._batches = []
-        self._index = 0 #??
+        self._index = 0  # ??
 
     def __iter__(self):
         self._index = 0
