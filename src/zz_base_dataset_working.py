@@ -53,14 +53,18 @@ class BaseDataset:
         else:
             self.data = [image for image, _ in self.data]
 
-    def _csv_load_data(self):
+    def _lazy_load_data(self):
+        self.data = [
+            (os.path.join(self._root, filename), filename)
+            for filename in os.listdir(self._root)
+        ]
+        self._csv_to_labels()
+
+    def _eager_load_data(self):
         for filename in os.listdir(self._root):
             path = os.path.join(self._root, filename)
-            if self._strategy == "lazy":
-                self.data.append((path, filename))
-            elif self._strategy == "eager":
-                image = self._read_data_file(path)
-                self.data.append((image, filename))
+            image = self._read_data_file(path)
+            self.data.append((image, filename))
         self._csv_to_labels()
 
     def load_data(self, root, strategy, format="csv", labels_path=None):
@@ -71,8 +75,10 @@ class BaseDataset:
         self._format = format
         self._labels_path = labels_path
 
-        if self._format == "csv":
-            self._csv_load_data()
+        if self._strategy == "eager":
+            self._eager_load_data()
+        elif self._strategy == "lazy":
+            self._lazy_load_data()
 
     def _get_item_helper(self, data, index):
         if bool(self._labels_path) or self._format == "hierarchical":
