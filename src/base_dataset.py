@@ -45,9 +45,9 @@ class BaseDataset:
                     self.targets.append(row)
             data = []
             data_dict = {filename: data for data, filename in self.data}
-            for index, filename in enumerate(self.targets):
+            for index, target in enumerate(self.targets):
                 if index != 0:  # because first row contains names of columns
-                    data.append(data_dict[filename[1]])
+                    data.append(data_dict[target[1]])
             self.data = copy.deepcopy(data)
             self.targets = [item[2] for item in self.targets]
         else:
