@@ -23,12 +23,20 @@ class ImageCenterCrop(PreprocessingTechniqueABC):
         cropped_image = image[top:bottom, left:right]
         return cropped_image
 
-    def _dataset_processing(self, dataset):
-        cropped_data = []
-        for image in dataset.data:
+    def _dataset_processing(self, data):
+        if isinstance(data, tuple):
+            image, target = data
             cropped_image = self._crop_image(image)
-            cropped_data.append(cropped_image)
-        if bool(dataset.targets):
-            return cropped_data, dataset.targets
+            return cropped_image, target
         else:
-            return cropped_data
+            cropped_image = self._crop_image(data)
+            return cropped_image
+
+
+if __name__ == "__main__":
+    crop = ImageCenterCrop(100, 100)
+    path = r"C:\Users\elikl\Documents\Università\yr2\2 - OOP\oop-final-project-group-7\image_regression_csv\images_poly\000cf421-6725-4dee-bf37-04525ba04340.png"
+    image = Image.open(path)
+    image = np.array(image)
+    cropped_image = crop(image)
+    print(np.shape(cropped_image))
