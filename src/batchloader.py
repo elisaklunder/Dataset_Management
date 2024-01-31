@@ -4,10 +4,9 @@ import random
 class BatchLoader:
     def __init__(self):
         self._batch_size = None
-        self._fashion = None
         self._dataset = None
         self._batches = []
-        self._index = 0  # ??
+        self._index = 0 
 
     def __iter__(self):
         self._index = 0
@@ -23,14 +22,13 @@ class BatchLoader:
         return batch
 
     def create_batches(
-        self, train_dataset, batch_size, fashion, discard_last_batch
+        self, train_dataset, batch_size, batch_style, discard_last_batch
     ):
         self._batch_size = batch_size
-        self._fashion = fashion
         self._dataset = train_dataset
 
         indexes = list(range(len(train_dataset)))
-        if fashion == "shuffle":
+        if batch_style == "random":
             indexes = random.sample(indexes, len(indexes))
 
         for i in range(0, len(train_dataset), batch_size):
