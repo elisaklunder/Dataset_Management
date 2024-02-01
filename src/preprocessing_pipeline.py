@@ -3,8 +3,6 @@ class PreprocessingPipeline:
         self._preprocessing_steps = list(preprocessing_techniques)
 
     def __call__(self, data):
-        if data is None:
-            raise TypeError("Input data to pipeline cannot be None.")
         return self._apply_pipeline(data)
 
     def _apply_pipeline(self, data):
