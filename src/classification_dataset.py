@@ -29,4 +29,3 @@ class ClassificationDataset(BaseDataset):
                         data = self._read_data_file(path)
                         self.data.append(data)
                     self.targets.append(class_name)
-
