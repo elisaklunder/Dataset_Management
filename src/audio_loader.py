@@ -8,6 +8,22 @@ from abc_loader import DataLoaderABC
 
 class AudioLoader(DataLoaderABC):
     def _read_data_file(self, path: str) -> tuple:
+        """
+        Given the directory of an audio file, the method should be able
+        to load the data into the program
+
+        Args:
+            path (str): directory to an audio file
+
+        Raises:
+            NoBackendError: This is an error from librosa. The program is
+            just re-raising it, whenever the file cannot be opened or is
+            in the wrong format
+
+        Returns:
+            tuple: tuple containing the samples of the audio files and the
+            sampling rate
+        """
         try:
             audio_tuple = librosa.load(path)
         except NoBackendError:
@@ -16,16 +32,3 @@ class AudioLoader(DataLoaderABC):
 specified file could be of an incorrect format."
             )
         return audio_tuple
-
-
-def main():
-    # path = "/Users/juliabelloni/Desktop/oop/assignments/oop-final-project-group-7/audio/Cats/cat0001.wav"
-    path = "/Users/juliabelloni/Desktop/oop/assignments/oop-final-project-group-7/image_classification_hierarchy/Cat/0a0da090aa9f0342444a7df4dc250c66.jpg"
-    audio = AudioLoader()
-    y, sr = audio._read_data_file(path)
-    print(y)
-    print(sr)
-
-
-if __name__ == "__main__":
-    main()

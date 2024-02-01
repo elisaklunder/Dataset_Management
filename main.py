@@ -37,12 +37,12 @@ def main():
 
     ### TESTING DATASETS ###
     image.load_data(
-        root=root_path, strategy="lazy", format="csv", labels_path=labels_path
+        root=root_path, strategy="lazy", format="csv"
     )
     print(len(image))
-    print(image[3])
+    # print(image[3])
     train, test = image.train_test_split(train_size=0.4, shuffle=True)
-
+    print(train[3])
     # TESTING BATCHLOADER FUNCTIONALITY
 
     batcher = BatchLoader()

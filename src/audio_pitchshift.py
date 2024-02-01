@@ -6,6 +6,13 @@ from preprocessing_ABC import PreprocessingTechniqueABC
 
 class PitchShifting(PreprocessingTechniqueABC):
     def __init__(self, pitch_shift: int) -> None:
+        """
+        Constructor of the class
+
+        Args:
+            pitch_shift (int): integer value indicating the value of the
+            pitch shifting
+        """
         self._error = Errors()
         self._error.type_check("pitch_shift", pitch_shift, int)
         self._error.ispositive("pitch_shift", pitch_shift)
@@ -23,12 +30,3 @@ class PitchShifting(PreprocessingTechniqueABC):
         except librosa.util.exceptions.ParameterError:
             raise ValueError("Audio data is in the wrong format")
         return shifted_audio, sampling_rate
-
-
-if __name__ == "__main__":
-    preproces = PitchShifting(45)
-    # path = "/Users/juliabelloni/Desktop/oop/assignments/oop-final-project-group-7/audio_classification_hierarchy/Cats/cat0548.wav"
-    path = "/Users/juliabelloni/Desktop/oop/assignments/oop-final-project-group-7/image_classification_hierarchy/Dog/0a3d571cec18903dd963639dddf5587d.jpg"
-    audio = librosa.load(path)
-    new_audio = preproces(audio)
-    print(len(new_audio[0]), len(audio[0]))

@@ -7,8 +7,13 @@ from typing import List, TypeVar
 from errors import Errors
 
 Dataset = TypeVar("Dataset", bound="BaseDataset")
+
+
 class BaseDataset:
     def __init__(self) -> None:
+        """
+        Constructor of the class.
+        """
         self._root = None
         self._labels_path = None
         self._format = None
@@ -19,28 +24,70 @@ class BaseDataset:
 
     @property
     def data(self) -> List:
+        """
+        Getter for the attribute 'data'.
+
+        Returns:
+            List: deepcopy of the attribute 'data'. In this way 'data'
+            is returned safely.
+        """
         return copy.deepcopy(self._data)
 
     @data.setter
     def data(self, new_data: List) -> None:
+        """
+        Setter for the attribute 'data'.
+
+        Args:
+            new_data (List): new value that the attribute 'data' will have.
+        """
         self.errors.type_check("new_data", new_data, list)
         self._data = new_data
 
     @property
     def targets(self) -> List:
+        """
+        Getter for the attribute 'target'.
+
+        Returns:
+            List: deepcopy of the attribute 'target'. In this way 'target'
+            is returned safely.
+        """
         return copy.deepcopy(self._targets)
 
     @targets.setter
-    def targets(self, new_targets: List) -> List:
+    def targets(self, new_targets: List) -> None:
+        """
+        Setter for the attribute 'target'.
+
+        Args:
+            new_targets (List): new value that the attribute 'target'
+            will have.
+        """
         self.errors.type_check("new_targets", new_targets, list)
         self._targets = new_targets
 
     def _read_data_file(self) -> None:
+        """
+        Method that is be implemented in the respective subclasses
+
+        Raises:
+            NotImplementedError: the method is not implemented and
+            should not be used when accessed directly from thid object
+        """
         raise NotImplementedError(
             "Method to read in the data needs to be implemented"
         )
 
     def _csv_to_labels(self) -> None:
+        """
+        The method sets the 'data' attribute so that the file name is
+        not stored anymore.
+
+        If there is a csv, the method reads in the csv file and orders the
+        data in such a way that the target for the data[index] will be
+        target[index].
+        """
         if self._labels_path is not None:
             with open(self._labels_path, "r") as file:
                 csv_reader = csv.reader(file)
@@ -57,6 +104,11 @@ class BaseDataset:
             self.data = [image for image, _ in self.data]
 
     def _csv_load_data(self) -> None:
+        """
+        The method stores the data depending on how the user wants to load it.
+        In case of eager loading the data stores a list of data points,
+        otherwise the data list would consist of directories.
+        """
         for filename in os.listdir(self._root):
             path = os.path.join(self._root, filename)
             if self._strategy == "lazy":
@@ -73,6 +125,19 @@ class BaseDataset:
         format: str = "csv",
         labels_path: str = None,
     ) -> None:
+        """
+        Public method calling helper functions defined above to correctly load
+        the data into the program.
+
+        Args:
+            root (str): _description_
+            strategy (str): _description_
+            format (str, optional): _description_. Defaults to "csv".
+            labels_path (str, optional): _description_. Defaults to None.
+
+        Raises:
+            ValueError: _description_
+        """
         self.errors.type_check("root", root, str)
         self.errors.type_check("strategy", strategy, str)
         self.errors.value_check("strategy", strategy, "lazy", "eager")
