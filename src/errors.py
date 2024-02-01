@@ -13,3 +13,7 @@ class Errors:
                 f"Input '{argument}' for argument '{argument_name}' is not \
 valid. Expected one of the following: {accepted_arguments}."
             )
+        
+    def ispositive(self, value):
+        if value <= 0:
+            raise ValueError(f"The '{value}' should be a value greater than 0")
