@@ -20,6 +20,9 @@ def main():
     # audio = AudioClassificationDataset()
 
     # JULIA
+    root_path = "/Users/juliabelloni/Desktop/oop/assignments/oop-final-project-group-7/audio_classification_csv/TRAIN"
+
+    labels_path = "/Users/juliabelloni/Desktop/oop/assignments/oop-final-project-group-7/audio_classification_csv/TRAIN.csv"
     # root_path = "/Users/juliabelloni/Desktop/oop/assignments/oop-final-project-group-7/classification_hierarchy"
 
     # root_path = "/Users/juliabelloni/Desktop/oop/assignments/oop-final-project-group-7/classification_csv/images_poly"
@@ -28,9 +31,9 @@ def main():
     # root_path = "/Users/juliabelloni/Desktop/oop/assignments/oop-final-project-group-7/audio"
 
     # ELI
-    root_path = r"C:\Users\elikl\Documents\Università\yr2\2 - OOP\oop-final-project-group-7\image_regression_csv\images_poly"
+    # root_path = r"C:\Users\elikl\Documents\Università\yr2\2 - OOP\oop-final-project-group-7\image_regression_csv\images_poly"
     # root_path = r"C:\Users\elikl\Documents\Università\yr2\2 - OOP\oop-final-project-group-7\image_classification_hierarchy"
-    labels_path = r"C:\Users\elikl\Documents\Università\yr2\2 - OOP\oop-final-project-group-7\image_regression_csv\poly_targets_regression.csv"
+    # labels_path = r"C:\Users\elikl\Documents\Università\yr2\2 - OOP\oop-final-project-group-7\image_regression_csv\poly_targets_regression.csv"
 
     ### TESTING DATASETS ###
     image.load_data(
@@ -47,9 +50,11 @@ def main():
     print(len(batcher))
 
     # show original image
-    path = r"C:\Users\elikl\Documents\Università\yr2\2 - OOP\oop-final-project-group-7\image_regression_csv\images_poly\000cf421-6725-4dee-bf37-04525ba04340.png"
-    image = Image.open(path)
+    # path = r"C:\Users\elikl\Documents\Università\yr2\2 - OOP\oop-final-project-group-7\image_regression_csv\images_poly\000cf421-6725-4dee-bf37-04525ba04340.png"
+    # image = Image.open(path)
     # image.show()
+
+    """
 
     # define pipeline
     crop = ImageCenterCrop(100, 100)
@@ -62,7 +67,7 @@ def main():
     preprocessed_image = pipeline(data)
     preprocessed_image = Image.fromarray(preprocessed_image)
     preprocessed_image.show()
-
+    """
 
 if __name__ == "__main__":
     main()

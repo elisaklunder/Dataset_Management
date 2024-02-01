@@ -3,12 +3,10 @@ import csv
 import os
 import os.path
 import random
-from typing import List
-
-from base_dataset import BaseDataset
+from typing import List, TypeVar
 from errors import Errors
 
-
+Dataset = TypeVar("Dataset", bound="BaseDataset")
 class BaseDataset:
     def __init__(self) -> None:
         self._root = None
@@ -114,12 +112,12 @@ class BaseDataset:
         except IndexError:
             raise IndexError("Index out of range.")
 
-    def __len__(self) -> None:
+    def __len__(self) -> int:
         return len(self._data)
 
     def train_test_split(
         self, train_size: float, shuffle: bool
-    ) -> BaseDataset:
+    ) -> Dataset:
         if not bool(self._data):
             raise ValueError(
                 "Unable to perform a train-test split because no data \
