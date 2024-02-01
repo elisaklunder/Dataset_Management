@@ -23,10 +23,10 @@ class ImagePatching(PreprocessingTechniqueABC):
         x_right = x_left + self._width
         y_right = y_left + self._height
         box = (x_left, y_left, x_right, y_right)
-        # box_image = image.crop(box)
         region = Image.new("RGB", (self._width, self._height), self._color)
         
         image.paste(region, box)
+        image.show()
         image_array = np.array(image)
 
         return image_array
@@ -36,7 +36,7 @@ class ImagePatching(PreprocessingTechniqueABC):
 
 
 if __name__ == "__main__":
-    preproces = ImagePatching("yellow", 155, 145)
+    preproces = ImagePatching("blue", 155, 145)
     path = "/Users/juliabelloni/Desktop/oop/assignments/oop-final-project-group-7/image_classification_hierarchy/Cat/0a0da090aa9f0342444a7df4dc250c66.jpg"
     image = Image.open(path)
     new_image = np.array(image)
