@@ -30,6 +30,7 @@ class BatchLoader:
     ):
         self.errors.type_check("train_dataset", train_dataset, BaseDataset)
         self.errors.type_check("batch_size", batch_size, int)
+        self.errors.ispositive("batch_size", batch_size)
         self.errors.type_check("batch_style", batch_style, str)
         self.errors.value_check(
             "batch_style", batch_style, "random", "sequential"
@@ -44,7 +45,7 @@ class BatchLoader:
             indexes = random.sample(indexes, len(indexes))
 
         for i in range(0, len(train_dataset), batch_size):
-            self._batches.append(indexes[i: i + batch_size])
+            self._batches.append(indexes[i : i + batch_size])
 
         if len(train_dataset) % batch_size != 0 and discard_last_batch:
             self._batches.pop()

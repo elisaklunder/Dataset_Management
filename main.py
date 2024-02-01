@@ -9,12 +9,13 @@ sys.path.append(os.getcwd() + "/src/")
 from src.batchloader import BatchLoader
 from src.image_center_crop import ImageCenterCrop
 from src.image_classification_dataset import ImageClassificationDataset
+from src.image_regression_dataset import ImageRegressionDataset
 from src.image_patching import ImagePatching
 from src.preprocessing_pipeline import PreprocessingPipeline
 
 
 def main():
-    image = ImageClassificationDataset()
+    image = ImageRegressionDataset()
     # audio = AudioClassificationDataset()
 
     # JULIA
@@ -26,21 +27,21 @@ def main():
     # root_path = "/Users/juliabelloni/Desktop/oop/assignments/oop-final-project-group-7/audio"
 
     # ELI
-    root_path = r"C:\Users\elikl\Documents\Università\yr2\2 - OOP\oop-final-project-group-7\audio_classification_hierarchy"
-    # root_path = r"C:\Users\elikl\Documents\Università\yr2\2 - OOP\oop-final-project-group-7\image_classification_hierarchy"
+    root_path = r"C:\Users\elikl\Documents\Università\yr2\2 - OOP\oop-final-project-group-7\image_regression_csv\images_poly"
+    #root_path = r"C:\Users\elikl\Documents\Università\yr2\2 - OOP\oop-final-project-group-7\image_classification_hierarchy"
     labels_path = r"C:\Users\elikl\Documents\Università\yr2\2 - OOP\oop-final-project-group-7\image_regression_csv\poly_targets_regression.csv"
 
     ### TESTING DATASETS ###
-    image.load_data(root_path, "lazy", "hierarchical")
+    image.load_data(root=root_path, strategy="lazy", format="csv", labels_path=labels_path)
+    print(len(image))
     print(image[3])
-    train, test = image.train_test_split(train_size=0.6, shuffle=True)
+    train, test = image.train_test_split(train_size=0.4, shuffle=True)
 
     # TESTING BATCHLOADER FUNCTIONALITY
 
-    # batcher = BatchLoader()
-
-    # batcher.create_batches(train, 51, "shuffle", False)
-    # print(len(batcher))
+    batcher = BatchLoader()
+    batcher.create_batches(train, 51, "random", False)
+    print(len(batcher))
 
     # show original image
     # path = r"C:\Users\elikl\Documents\Università\yr2\2 - OOP\oop-final-project-group-7\image_regression_csv\images_poly\000cf421-6725-4dee-bf37-04525ba04340.png"

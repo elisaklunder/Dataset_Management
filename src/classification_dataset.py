@@ -26,6 +26,6 @@ class ClassificationDataset(BaseDataset):
                         self._data.append(path)
 
                     if self._strategy == "eager":
-                        data = self._read_data_file(path)
-                        self._data.append(data)
-                    self.targets.append(class_name)
+                        data_array = self._read_data_file(path)
+                        self._data.append(data_array)
+                    self._targets.append(class_name)

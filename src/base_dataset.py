@@ -116,8 +116,9 @@ class BaseDataset:
 has been loaded in the dataset yet."
             )
         self.errors.type_check("shuffle", shuffle, bool)
+        self.errors.type_check("train_size", train_size, float)
 
-        data_len = len(self._data)  # MAYBE DO LEN(SELF)
+        data_len = len(self)
         train_len = int(data_len * train_size)
 
         train = copy.deepcopy(self)
