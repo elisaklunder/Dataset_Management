@@ -14,7 +14,7 @@ from src.preprocessing_pipeline import PreprocessingPipeline
 
 
 def main():
-    # image = ImageClassificationDataset()
+    image = ImageClassificationDataset()
     # audio = AudioClassificationDataset()
 
     # JULIA
@@ -26,40 +26,39 @@ def main():
     # root_path = "/Users/juliabelloni/Desktop/oop/assignments/oop-final-project-group-7/audio"
 
     # ELI
-    # root_path = r"C:\Users\elikl\Documents\Università\yr2\2 - OOP\oop-final-project-group-7\classification_csv\images_poly"
-    # root_path = r"C:\Users\elikl\Documents\Università\yr2\2 - OOP\oop-final-project-group-7\classification_hierarchy"
-    # labels_path = r"C:\Users\elikl\Documents\Università\yr2\2 - OOP\oop-final-project-group-7\classification_csv\poly_targets_regression.csv"
-    # image.load_data(root_path, "eager", "csv")
+    root_path = r"C:\Users\elikl\Documents\Università\yr2\2 - OOP\oop-final-project-group-7\image_regression_csv\images_poly"
+    # root_path = r"C:\Users\elikl\Documents\Università\yr2\2 - OOP\oop-final-project-group-7\image_classification_hierarchy"
+    labels_path = r"C:\Users\elikl\Documents\Università\yr2\2 - OOP\oop-final-project-group-7\image_regression_csv\poly_targets_regression.csv"
+    image.load_data(root_path, "lazy", "csv")
     # train, test = image.train_test_split(
-    #    train_size=0.6, test_size=0.4, shuffle=False
+    #     train_size=0.6, shuffle=True
     # )
 
-    # print((train[3]))
-    # print(train.targets[1])
-    # train.targets[1] = 435345
-    # print(train.targets[1])
+    # print(image[3])
+
+    # TESTING BATCHLOADER FUNCTIONALITY
 
     # batcher = BatchLoader()
 
     # batcher.create_batches(train, 51, "shuffle", False)
-    # print(len(batcher))'''
+    # print(len(batcher))
 
     # show original image
-    path = r"C:\Users\elikl\Documents\Università\yr2\2 - OOP\oop-final-project-group-7\image_regression_csv\images_poly\000cf421-6725-4dee-bf37-04525ba04340.png"
-    image = Image.open(path)
+    # path = r"C:\Users\elikl\Documents\Università\yr2\2 - OOP\oop-final-project-group-7\image_regression_csv\images_poly\000cf421-6725-4dee-bf37-04525ba04340.png"
+    # image = Image.open(path)
     # image.show()
 
     # define pipeline
-    crop = ImageCenterCrop(100, 170)
-    patch = ImagePatching("yellow", 15, 15)
-    pipeline = PreprocessingPipeline(crop, patch)
+    # crop = ImageCenterCrop(100, 170)
+    # patch = ImagePatching("yellow", 15, 15)
+    # pipeline = PreprocessingPipeline(crop, patch)
 
     # apply pipeline
-    image = np.array(image)
-    data = (image, 3)
-    preprocessed_image = pipeline(data)
-    #preprocessed_image = Image.fromarray(preprocessed_image)
-    #preprocessed_image.show()
+    # image = np.array(image)
+    # data = (image, 3)
+    # preprocessed_image = pipeline(data)
+    # preprocessed_image = Image.fromarray(preprocessed_image)
+    # preprocessed_image.show()
 
 
 if __name__ == "__main__":
