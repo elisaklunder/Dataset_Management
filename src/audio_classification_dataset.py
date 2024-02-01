@@ -3,7 +3,7 @@ from src.classification_dataset import ClassificationDataset
 
 
 class AudioClassificationDataset(ClassificationDataset):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         loader = AudioLoader()
         ClassificationDataset._read_data_file = loader

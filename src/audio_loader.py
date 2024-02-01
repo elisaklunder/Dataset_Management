@@ -1,21 +1,20 @@
 import os.path
 
 import librosa
-import numpy as np
 from audioread.exceptions import NoBackendError
 
 from abc_loader import DataLoaderABC
 
 
 class AudioLoader(DataLoaderABC):
-    def _read_data_file(self, path):
+    def _read_data_file(self, path: str) -> tuple:
         try:
             audio_tuple = librosa.load(path)
         except NoBackendError:
             raise NoBackendError(
                 f"Error trying to open file '{os.path.basename(path)}'. The \
-specified file could be of an incorrect format.")
-        # y and sampling rate --> it can be unpacked
+specified file could be of an incorrect format."
+            )
         return audio_tuple
 
 

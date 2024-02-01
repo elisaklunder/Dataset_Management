@@ -4,13 +4,13 @@ from errors import Errors
 
 
 class PitchShifting(PreprocessingTechniqueABC):
-    def __init__(self, pitch_shift):
+    def __init__(self, pitch_shift:int) -> None:
         self._error = Errors()
         self._error.type_check("pitch_shift", pitch_shift, int)
         self._error.ispositive("pitch_shift", pitch_shift)
         self._pitch_shift = pitch_shift
 
-    def _preprocessing_logic(self, audio):
+    def _preprocessing_logic(self, audio:):
         sample, sampling_rate = audio
         try:
             shifted_audio = librosa.effects.pitch_shift(
