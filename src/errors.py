@@ -13,10 +13,9 @@ class Errors:
                 f"Input '{argument}' for argument '{argument_name}' is not \
 valid. Expected one of the following: {accepted_arguments}."
             )
-        
+
     def ispositive(self, argument_name, argument):
         if argument <= 0:
             raise ValueError(
                 f"'{argument_name}' should be a value grater than 0"
-                )
-            
+            )

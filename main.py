@@ -26,12 +26,12 @@ def main():
     # root_path = "/Users/juliabelloni/Desktop/oop/assignments/oop-final-project-group-7/audio"
 
     # ELI
-    root_path = r"C:\Users\elikl\Documents\Università\yr2\2 - OOP\oop-final-project-group-7\image_regression_csv\images_poly"
+    root_path = r"C:\Users\elikl\Documents\Università\yr2\2 - OOP\oop-final-project-group-7\audio_classification_hierarchy"
     # root_path = r"C:\Users\elikl\Documents\Università\yr2\2 - OOP\oop-final-project-group-7\image_classification_hierarchy"
     labels_path = r"C:\Users\elikl\Documents\Università\yr2\2 - OOP\oop-final-project-group-7\image_regression_csv\poly_targets_regression.csv"
 
     ### TESTING DATASETS ###
-    image.load_data(root_path, "lazy", "csv")
+    image.load_data(root_path, "lazy", "hierarchical")
     print(image[3])
     train, test = image.train_test_split(train_size=0.6, shuffle=True)
 

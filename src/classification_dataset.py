@@ -23,9 +23,9 @@ class ClassificationDataset(BaseDataset):
                     path = os.path.join(class_dir, filename)
 
                     if self._strategy == "lazy":
-                        self.data.append(path)
+                        self._data.append(path)
 
                     if self._strategy == "eager":
                         data = self._read_data_file(path)
-                        self.data.append(data)
+                        self._data.append(data)
                     self.targets.append(class_name)

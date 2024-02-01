@@ -1,19 +1,20 @@
 import os.path
 
 import numpy as np
+import PIL
 from PIL import Image
 
+from abc_loader import DataLoaderABC
 
-class ImageLoader:
+
+class ImageLoader(DataLoaderABC):
     def _read_data_file(self, path):
         try:
             image = Image.open(path)
-        except Exception as e:
-            print(
-                f"Error opening image {os.path.basename(path)}: {e}"
-            )  # specify the error better
+        except PIL.Image.UnidentifiedImageError:
+            raise PIL.Image.UnidentifiedImageError(
+                f"Error trying to open path '{path}'. The specified file \
+could be of an incorrect format."
+            )
         image_data = np.array(image)
         return image_data
-
-    def __call__(self, path):
-        return self._read_data_file(path)
