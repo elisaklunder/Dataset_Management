@@ -56,9 +56,10 @@ def main():
 
     # apply pipeline
     image = np.array(image)
-    preprocessed_image = pipeline()
-    preprocessed_image = Image.fromarray(preprocessed_image)
-    preprocessed_image.show()
+    data = (image, 3)
+    preprocessed_image = pipeline(data)
+    #preprocessed_image = Image.fromarray(preprocessed_image)
+    #preprocessed_image.show()
 
 
 if __name__ == "__main__":
