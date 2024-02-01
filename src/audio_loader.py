@@ -6,13 +6,13 @@ import numpy as np
 
 class AudioLoader:
     def _read_data_file(self, path):
-        audio_tuple = librosa.load(
-            path
-        )  # y and sampling rate --> it can be unpacked
-        if not isinstance(audio_tuple, tuple) or len(audio_tuple) != 2:
-            raise TypeError(
-                "Invalid audio format. Expected a tuple with two elements: audio samples and sampling frequency"
-            )
+        try:
+            audio_tuple = librosa.load(
+                path
+            )  # y and sampling rate --> it can be unpacked
+        except librosa.NoBackendError as e:
+            print(f"Error reading data from {path}: {e}")
+
         return audio_tuple
 
     def __call__(self, path):
