@@ -14,7 +14,9 @@ class Errors:
 valid. Expected one of the following: {accepted_arguments}."
             )
         
-    def ispositive(self, value):
-        if value <= 0:
-            raise ValueError("sldjbvskbdv")
+    def ispositive(self, argument_name, argument):
+        if argument <= 0:
+            raise ValueError(
+                f"'{argument_name}' should be a value grater than 0"
+                )
             

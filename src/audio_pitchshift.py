@@ -1,9 +1,12 @@
 import librosa
 from preprocessing_ABC import PreprocessingTechniqueABC
-
+from errors import Errors
 
 class PitchShifting(PreprocessingTechniqueABC):
     def __init__(self, pitch_shift):
+        error = Errors()
+        error.type_check("pitch_shift", pitch_shift, int)
+        error.ispositive("pitch_shift", pitch_shift)
         self._pitch_shift = pitch_shift
 
     def _preprocessing_logic(self, audio):
