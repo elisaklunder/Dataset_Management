@@ -3,12 +3,14 @@ import csv
 import os
 import os.path
 import random
+from typing import List
 
+from base_dataset import BaseDataset
 from errors import Errors
 
 
 class BaseDataset:
-    def __init__(self):
+    def __init__(self) -> None:
         self._root = None
         self._labels_path = None
         self._format = None
@@ -18,29 +20,29 @@ class BaseDataset:
         self.errors = Errors()
 
     @property
-    def data(self):
+    def data(self) -> List:
         return copy.deepcopy(self._data)
 
     @data.setter
-    def data(self, new_data):
+    def data(self, new_data: List) -> None:
         self.errors.type_check("new_data", new_data, list)
         self._data = new_data
 
     @property
-    def targets(self):
+    def targets(self) -> List:
         return copy.deepcopy(self._targets)
 
     @targets.setter
-    def targets(self, new_targets):
+    def targets(self, new_targets: List) -> List:
         self.errors.type_check("new_targets", new_targets, list)
         self._targets = new_targets
 
-    def _read_data_file(self):
+    def _read_data_file(self) -> None:
         raise NotImplementedError(
             "Method to read in the data needs to be implemented"
         )
 
-    def _csv_to_labels(self):
+    def _csv_to_labels(self) -> None:
         if self._labels_path is not None:
             with open(self._labels_path, "r") as file:
                 csv_reader = csv.reader(file)
@@ -56,7 +58,7 @@ class BaseDataset:
         else:
             self.data = [image for image, _ in self.data]
 
-    def _csv_load_data(self):
+    def _csv_load_data(self) -> None:
         for filename in os.listdir(self._root):
             path = os.path.join(self._root, filename)
             if self._strategy == "lazy":
@@ -66,7 +68,13 @@ class BaseDataset:
                 self._data.append((image, filename))
         self._csv_to_labels()
 
-    def load_data(self, root, strategy, format="csv", labels_path=None):
+    def load_data(
+        self,
+        root: str,
+        strategy: str,
+        format: str = "csv",
+        labels_path: str = None,
+    ) -> None:
         self.errors.type_check("root", root, str)
         self.errors.type_check("strategy", strategy, str)
         self.errors.value_check("strategy", strategy, "lazy", "eager")
@@ -86,13 +94,13 @@ class BaseDataset:
         if self._format == "csv":
             self._csv_load_data()
 
-    def _get_item_format_helper(self, data, index):
+    def _get_item_format_helper(self, data: List, index: int) -> List | tuple:
         if bool(self._labels_path) or self._format == "hierarchical":
             return data, self.targets[index]
         else:
             return data
 
-    def __getitem__(self, index: int):
+    def __getitem__(self, index: int) -> List | tuple:
         if not bool(self._data):
             raise ValueError("No data available.")
         self.errors.type_check("index", index, int)
@@ -106,10 +114,12 @@ class BaseDataset:
         except IndexError:
             raise IndexError("Index out of range.")
 
-    def __len__(self):
+    def __len__(self) -> None:
         return len(self._data)
 
-    def train_test_split(self, train_size, shuffle):
+    def train_test_split(
+        self, train_size: float, shuffle: bool
+    ) -> BaseDataset:
         if not bool(self._data):
             raise ValueError(
                 "Unable to perform a train-test split because no data \
