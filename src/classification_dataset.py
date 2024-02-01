@@ -4,16 +4,22 @@ from base_dataset import BaseDataset
 
 
 class ClassificationDataset(BaseDataset):
-    # implement hierarchical
-    def __init__(self):
+    # implements hierarchical strategy
+    def __init__(self) -> None:
         super().__init__()
 
-    def load_data(self, root, strategy, format="csv", labels_path=None):
+    def load_data(
+        self,
+        root: str,
+        strategy: str,
+        format: str = "csv",
+        labels_path: str = None,
+    ) -> None:
         super().load_data(root, strategy, format, labels_path)
         if self._format == "hierarchical":
             self._hierarchical_load_data()
 
-    def _hierarchical_load_data(self):
+    def _hierarchical_load_data(self) -> None:
         for class_name in os.listdir(self._root):
             if class_name != ".DS_Store":
                 class_dir = os.path.join(self._root, class_name)

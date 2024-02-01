@@ -8,7 +8,7 @@ from abc_loader import DataLoaderABC
 
 
 class ImageLoader(DataLoaderABC):
-    def _read_data_file(self, path):
+    def _read_data_file(self, path: str) -> np.ndarray:
         try:
             image = Image.open(path)
         except PIL.Image.UnidentifiedImageError:

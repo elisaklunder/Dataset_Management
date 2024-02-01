@@ -1,11 +1,11 @@
 import numpy as np
 
-from preprocessing_ABC import PreprocessingTechniqueABC
 from errors import Errors
+from preprocessing_ABC import PreprocessingTechniqueABC
 
 
 class ImageCenterCrop(PreprocessingTechniqueABC):
-    def __init__(self, width, height):
+    def __init__(self, width: int, height: int) -> None:
         self._errors = Errors()
         self._errors.type_check("width", width, int)
         self._errors.ispositive("width", width)
@@ -14,7 +14,7 @@ class ImageCenterCrop(PreprocessingTechniqueABC):
         self._width = width
         self._height = height
 
-    def _preprocessing_logic(self, data):
+    def _preprocessing_logic(self, data: np.ndarray) -> np.ndarray:
         H, W, _ = np.shape(data)
         H_center = H // 2
         W_center = W // 2

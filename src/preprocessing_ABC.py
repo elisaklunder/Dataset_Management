@@ -8,10 +8,12 @@ class PreprocessingTechniqueABC(ABC):
     def _preprocessing_logic():
         pass
 
-    def __call__(self, data):
+    def __call__(self, data: np.ndarray | tuple) -> np.ndarray | tuple:
         return self._preprocessing(data)
 
-    def _preprocessing(self, data_point):
+    def _preprocessing(
+        self, data_point: np.ndarray | tuple
+    ) -> np.ndarray | tuple:
         if isinstance(data_point, np.ndarray) or (
             isinstance(data_point, tuple)
             and isinstance(data_point[0], np.ndarray)
