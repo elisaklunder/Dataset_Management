@@ -7,7 +7,7 @@ class PreprocessingPipeline:
 
     def _apply_pipeline(self, data):
         for step in self._preprocessing_steps:
-            if not callable(getattr(step, "__call__")):
+            if not callable(step):
                 raise TypeError(
                     f"Preprocessing step {step} is not a callable technique."
                 )

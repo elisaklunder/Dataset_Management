@@ -1,6 +1,6 @@
 class Errors:
     def type_check(self, argument_name, argument, *expected_types):
-        if not any(isinstance(argument, type) for type in expected_types): 
+        if not any(isinstance(argument, type) for type in expected_types):
             types_str = " or ".join(str(type) for type in expected_types)
             raise TypeError(
                 f"Invalid type for argument '{argument_name}'. Expected \

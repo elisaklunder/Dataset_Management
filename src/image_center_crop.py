@@ -1,11 +1,16 @@
 import numpy as np
 
 from preprocessing_ABC import PreprocessingTechniqueABC
+from errors import Errors
 
 
 class ImageCenterCrop(PreprocessingTechniqueABC):
     def __init__(self, width, height):
-        
+        self._errors = Errors()
+        self._errors.type_check("width", width, int)
+        self._errors.ispositive("width", width)
+        self._errors.type_check("height", height, int)
+        self._errors.ispositive("height", height)
         self._width = width
         self._height = height
 

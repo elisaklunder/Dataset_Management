@@ -4,12 +4,17 @@ import numpy as np
 from PIL import Image
 
 from preprocessing_ABC import PreprocessingTechniqueABC
+from errors import Errors
 
 
 class ImagePatching(PreprocessingTechniqueABC):
     def __init__(self, color, height, width):
-        # implement error if the box is bigger than the image
-        # handle everything  when crop is too big
+        self._errors = Errors()
+        self._errors.type_check("color", color, str)
+        self._errors.type_check("width", width, int)
+        self._errors.type_check("height", height, int)
+        self._errors.ispositive("width", width)
+        self._errors.ispositive("height", height)
         self._color = color
         self._width = width
         self._height = height
@@ -17,6 +22,10 @@ class ImagePatching(PreprocessingTechniqueABC):
     def _preprocessing_logic(self, array):
         image = Image.fromarray(array)
         width, height = image.size
+        if width < self._width or height < self._height:
+            raise ValueError(
+                "Image can't be smaller than the specified patch size."
+            )
         x_left = random.randint(0, width - self._width)
         y_left = random.randint(0, height - self._height)
 
