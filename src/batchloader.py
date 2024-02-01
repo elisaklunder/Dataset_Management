@@ -1,7 +1,7 @@
 import random
 
-from errors import Errors
 from base_dataset import BaseDataset
+from errors import Errors
 
 
 class BatchLoader:
@@ -30,7 +30,12 @@ class BatchLoader:
     ):
         self.errors.type_check("train_dataset", train_dataset, BaseDataset)
         self.errors.type_check("batch_size", batch_size, int)
-        
+        self.errors.type_check("batch_style", batch_style, str)
+        self.errors.value_check(
+            "batch_style", batch_style, "random", "sequential"
+        )
+        self.errors.type_check("discard_last_batch", discard_last_batch, bool)
+
         self._batch_size = batch_size
         self._dataset = train_dataset
 
