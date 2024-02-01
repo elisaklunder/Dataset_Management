@@ -16,7 +16,8 @@ class PitchShifting(PreprocessingTechniqueABC):
 
 if __name__ == "__main__":
     preproces = PitchShifting(12)
-    path = "/Users/juliabelloni/Desktop/oop/assignments/oop-final-project-group-7/audio_classification_hierarchy/Cats/cat0548.wav"
+    # path = "/Users/juliabelloni/Desktop/oop/assignments/oop-final-project-group-7/audio_classification_hierarchy/Cats/cat0548.wav"
+    path = "/Users/juliabelloni/Desktop/oop/assignments/oop-final-project-group-7/image_classification_hierarchy/Cat/0a0da090aa9f0342444a7df4dc250c66.jpg"
     audio = librosa.load(path)
     new_audio = preproces(audio)
     print(new_audio)
