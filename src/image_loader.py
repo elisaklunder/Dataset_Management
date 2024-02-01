@@ -13,8 +13,8 @@ class ImageLoader(DataLoaderABC):
             image = Image.open(path)
         except PIL.Image.UnidentifiedImageError:
             raise PIL.Image.UnidentifiedImageError(
-                f"Error trying to open path '{path}'. The specified file \
-could be of an incorrect format."
+                f"Error trying to open file '{os.path.basename(path)}'. The \
+specified file could be of an incorrect format."
             )
         image_data = np.array(image)
         return image_data
