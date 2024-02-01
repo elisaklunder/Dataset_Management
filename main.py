@@ -5,17 +5,18 @@ import numpy as np
 from PIL import Image
 
 sys.path.append(os.getcwd() + "/src/")
-# from src.audio_classification_dataset import AudioClassificationDataset
+from src.audio_classification_dataset import AudioClassificationDataset
+from src.audio_regression_dataset import AudioRegressionDataset
+from src.image_regression_dataset import ImageRegressionDataset
+from src.image_classification_dataset import ImageClassificationDataset
 from src.batchloader import BatchLoader
 from src.image_center_crop import ImageCenterCrop
-from src.image_classification_dataset import ImageClassificationDataset
 from src.image_patching import ImagePatching
-from src.image_regression_dataset import ImageRegressionDataset
 from src.preprocessing_pipeline import PreprocessingPipeline
 
 
 def main():
-    image = ImageRegressionDataset()
+    image = AudioClassificationDataset()
     # audio = AudioClassificationDataset()
 
     # JULIA
