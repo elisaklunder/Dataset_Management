@@ -1,5 +1,8 @@
 import random
 
+from errors import Errors
+from base_dataset import BaseDataset
+
 
 class BatchLoader:
     def __init__(self):
@@ -7,6 +10,7 @@ class BatchLoader:
         self._dataset = None
         self._batches = []
         self._index = 0
+        self.errors = Errors()
 
     def __iter__(self):
         self._index = 0
@@ -24,6 +28,9 @@ class BatchLoader:
     def create_batches(
         self, train_dataset, batch_size, batch_style, discard_last_batch
     ):
+        self.errors.type_check("train_dataset", train_dataset, BaseDataset)
+        self.errors.type_check("batch_size", batch_size, int)
+        
         self._batch_size = batch_size
         self._dataset = train_dataset
 

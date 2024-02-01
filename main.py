@@ -30,11 +30,11 @@ def main():
     # root_path = r"C:\Users\elikl\Documents\Università\yr2\2 - OOP\oop-final-project-group-7\image_classification_hierarchy"
     labels_path = r"C:\Users\elikl\Documents\Università\yr2\2 - OOP\oop-final-project-group-7\image_regression_csv\poly_targets_regression.csv"
     image.load_data(root_path, "lazy", "csv")
-    # train, test = image.train_test_split(
-    #     train_size=0.6, shuffle=True
-    # )
+    print(image[3])
+    train, test = image.train_test_split(
+        train_size=0.6, shuffle=True
+    )
 
-    # print(image[3])
 
     # TESTING BATCHLOADER FUNCTIONALITY
 
