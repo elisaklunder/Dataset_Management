@@ -7,7 +7,7 @@ class Resampling(PreprocessingTechniqueABC):
     def __init__(self, new_sampling_rate):
         error = Errors()
         error.ispositive(new_sampling_rate)
-        error.type_check("new_sampling_rate", new_sampling_rate, int)
+        error.type_check(new_sampling_rate, int)
         self._new_sampling_rate = new_sampling_rate
 
     def _preprocessing_logic(self, audio):
@@ -17,7 +17,7 @@ class Resampling(PreprocessingTechniqueABC):
 
 
 if __name__ == "__main__":
-    preproces = Resampling(1)
+    preproces = Resampling(-7697)
     path = "/Users/juliabelloni/Desktop/oop/assignments/oop-final-project-group-7/audio_classification_hierarchy/Cats/cat0548.wav"
     audio = librosa.load(path)
     print(audio)
