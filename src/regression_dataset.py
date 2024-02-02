@@ -2,5 +2,7 @@ from base_dataset import BaseDataset
 
 
 class RegressionDataset(BaseDataset):
-    # implement error for hierarchical if we have time for it
+    """
+    Class implementing regression datasets.
+    """
     pass

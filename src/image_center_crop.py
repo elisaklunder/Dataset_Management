@@ -6,6 +6,13 @@ from preprocessing_ABC import PreprocessingTechniqueABC
 
 class ImageCenterCrop(PreprocessingTechniqueABC):
     def __init__(self, width: int, height: int) -> None:
+        """
+        Constructor of the class.
+
+        Args:
+            width (int): integer value specifying the width of the crop.
+            height (int): integer value specifying the height of the crop.
+        """
         self._errors = Errors()
         self._errors.type_check("width", width, int)
         self._errors.ispositive("width", width)
@@ -15,6 +22,16 @@ class ImageCenterCrop(PreprocessingTechniqueABC):
         self._height = height
 
     def _preprocessing_logic(self, data: np.ndarray) -> np.ndarray:
+        """
+        Private method implementing the center cropping of the image. given a
+        width and a height.
+
+        Args:
+            data (np.ndarray): image in a np.ndarray format.
+
+        Returns:
+            np.ndarray: centrally cropped image in np.ndarray format.
+        """
         H, W, _ = np.shape(data)
         H_center = H // 2
         W_center = W // 2

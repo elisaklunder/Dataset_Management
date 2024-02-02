@@ -3,9 +3,11 @@ from regression_dataset import RegressionDataset
 
 
 class AudioRegressionDataset(RegressionDataset):
-    """
-    Class to be further implemented if the user wants to carry out
-    actual computations once the data was loaded
-    """
-    loader = AudioLoader()
-    RegressionDataset._read_data_file = loader
+    def __init__(self) -> None:
+        """
+            Class to be further implemented if the user wants to carry out
+            actual computations once the data was loaded
+        """
+        super().__init__()
+        loader = AudioLoader()
+        RegressionDataset._read_data_file = loader

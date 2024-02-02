@@ -3,5 +3,11 @@ from src.image_loader import ImageLoader
 
 
 class ImageRegressionDataset(RegressionDataset):
-    loader = ImageLoader()
-    RegressionDataset._read_data_file = loader
+    def __init__(self) -> None:
+        """
+        Constructor of the class inheriting all the attributes from the
+        super class
+        """
+        super().__init__()
+        loader = ImageLoader()
+        RegressionDataset._read_data_file = loader
