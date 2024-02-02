@@ -4,10 +4,11 @@ from abc import ABC, abstractproperty, abstractmethod
 class BaseDatasetABC(ABC):
 
     @abstractmethod
-    def load_data(self, root: str) -> None: #root maybe not
+    def load_data(self, root: str) -> None:
+        # root maybe not
         """
         Abstract method that will load the data once it is implemented in the
-        as a concrete class. 
+        as a concrete class.
 
         Args:
             root (str): directory indicating a path to the data to be loaded
@@ -15,7 +16,8 @@ class BaseDatasetABC(ABC):
         pass
 
     @abstractmethod
-    def train_test_split(self, train_size: float, shuffle: bool): #idk the type hints for this shit
+    def train_test_split(self, train_size: float, shuffle: bool):
+        # idk the type hints for this shit
         """
         Abstract method for performing the train test split.
 

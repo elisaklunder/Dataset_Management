@@ -19,6 +19,21 @@ class PitchShifting(PreprocessingTechniqueABC):
         self._pitch_shift = pitch_shift
 
     def _preprocessing_logic(self, audio: tuple) -> tuple:
+        """
+        Method implementing the pitch shift for a given audio
+
+        Args:
+            audio (tuple): tuple containing the samples and the sampling rate
+
+        Raises:
+            ValueError: This is an error from librosa. The program is
+            just re-raising it, whenever the file is
+            in the wrong format
+
+        Returns:
+            tuple: tuple containing the samples and the sampling rate of the
+            new signal shifted pitch shifted.
+        """
         sample, sampling_rate = audio
         try:
             shifted_audio = librosa.effects.pitch_shift(

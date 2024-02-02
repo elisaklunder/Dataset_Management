@@ -4,8 +4,10 @@ from base_dataset import BaseDataset
 
 
 class ClassificationDataset(BaseDataset):
-    # implements hierarchical strategy
     def __init__(self) -> None:
+        """
+        Constructor of the class.
+        """
         super().__init__()
 
     def load_data(
@@ -15,6 +17,26 @@ class ClassificationDataset(BaseDataset):
         format: str = "csv",
         labels_path: str = None,
     ) -> None:
+        """
+        Public method, overriding the method in the Basedataset. It implements
+        the possibility to load data when the files are in hierarchical
+        folders, by keeping everything that was implemented in the parent
+        class.
+
+        Args:
+            root (str): root (str): directory indicating a path to the data to
+            be loaded.
+
+            strategy (str): string specifying whether the data is loaded in a
+            lazy or eager fashion.
+
+            format (str, optional): string indicating the structure of the
+            data. Defaults to "csv".
+
+            labels_path (str, optional): directory indicating the path to the
+            labels, if any. Defaults to None.
+
+        """
         super().load_data(root, strategy, format, labels_path)
         if self._format == "hierarchical":
             self._hierarchical_load_data()

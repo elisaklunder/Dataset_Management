@@ -70,11 +70,11 @@ class BaseDataset:
 
     def _read_data_file(self) -> None:
         """
-        Method that is be implemented in the respective subclasses
+        Method that is be implemented in the respective subclasses.
 
         Raises:
             NotImplementedError: the method is not implemented and
-            should not be used when accessed directly from thid object
+            should not be used when accessed directly from thid object.
         """
         raise NotImplementedError(
             "Method to read in the data needs to be implemented"
@@ -135,13 +135,20 @@ class BaseDataset:
         the data into the program.
 
         Args:
-            root (str): _description_
-            strategy (str): _description_
-            format (str, optional): _description_. Defaults to "csv".
-            labels_path (str, optional): _description_. Defaults to None.
+            root (str): directory indicating a path to the data to be loaded.
+
+            strategy (str): string specifying whether the data is loaded in a
+            lazy or eager fashion.
+
+            format (str, optional): string indicating the structure of the
+            data. Defaults to "csv".
+
+            labels_path (str, optional): directory indicating the path to the
+            labels, if any. Defaults to None.
 
         Raises:
-            ValueError: _description_
+            ValueError: if the specified structure (hierarchical) has a path
+            specified.
         """
         self._errors.type_check("root", root, str)
         self._errors.type_check("strategy", strategy, str)
@@ -163,12 +170,40 @@ class BaseDataset:
             self._csv_load_data()
 
     def _get_item_format_helper(self, data: List, index: int) -> List | tuple:
+        """
+        Helper private method for __getitem__.
+
+        Args:
+            data (List): List containing all the data points.
+            index (int): index to be accessed with subsetting operator.
+
+        Returns:
+            List | tuple: values containing the data or the data and the target
+            at a given index.
+        """
         if bool(self._labels_path) or self._format == "hierarchical":
             return data, self.targets[index]
         else:
             return data
 
     def __getitem__(self, index: int) -> List | tuple:
+        """
+        Megic method to implement the subsetting operator for the class.
+
+        Args:
+            index (int): integer value indicating the index to be accessed with
+            subsetting operator.
+
+        Raises:
+            ValueError: if there is no data contained in the self.data
+            attribute, namely the data has not been loaded or is an empty list.
+
+            IndexError: if the index is out of the range of the 'data'
+            attribute.
+
+        Returns:
+            List | tuple: _description_
+        """
         if not bool(self.data):
             raise ValueError("No data available.")
         self._errors.type_check("index", index, int)
@@ -183,9 +218,33 @@ class BaseDataset:
             raise IndexError("Index out of range.")
 
     def __len__(self) -> int:
+        """
+        Magic method implementing the len() function for the object.
+
+        Returns:
+            int: integer number indicating the number the number of batches
+            that can be created from the dataset with the specific batch size.
+        """
         return len(self.data)
 
     def train_test_split(self, train_size: float, shuffle: bool) -> Dataset:
+        """
+        Public method performing the train test split.
+
+        Args:
+            train_size (float): floating number indicating the percentage of
+            the data in the train.
+
+            shuffle (bool):Bool for expressing whether the data needs to be
+            shuffled before performing the train test split.
+
+        Raises:
+            ValueError: if there is no data contained in the self.data
+            attribute, namely the data has not been loaded or is an empty list.
+
+        Returns:
+            Dataset: one Dataset object for the train and one for the test.
+        """
         if not bool(self.data):
             raise ValueError(
                 "Unable to perform a train-test split because no data \

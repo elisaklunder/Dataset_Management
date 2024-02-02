@@ -21,7 +21,7 @@ class Resampling(PreprocessingTechniqueABC):
     def _preprocessing_logic(self, audio: tuple) -> tuple:
         """
         Given a tuple, containing samples and sampling rate, the method
-        re-samples the audio based on sampling frequency specified by the user
+        re-samples the audio based on sampling frequency specified by the user.
 
         Args:
             audio (tuple): audio data to be preprocessed. The values inside
