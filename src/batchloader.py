@@ -7,12 +7,16 @@ from errors import Errors
 
 class BatchLoader:
     def __init__(self) -> None:
+        """
+        COnstructor of the class
+        """
         self._batch_size = None
         self._dataset = None
         self._batches = []
         self._index = 0
         self._errors = Errors()
 
+    ## ?? DOCSTRINGS ?? ##
     def __iter__(self) -> Iterator:
         self._index = 0
         return self
