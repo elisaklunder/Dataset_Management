@@ -4,6 +4,7 @@ import os
 import os.path
 import random
 from typing import List, TypeVar
+
 from errors import Errors
 
 Dataset = TypeVar("Dataset", bound="BaseDataset")
@@ -20,7 +21,7 @@ class BaseDataset:
         self._strategy = None
         self._data = []
         self._targets = []
-        self.errors = Errors()
+        self._errors = Errors()
 
     @property
     def data(self) -> List:
@@ -41,7 +42,7 @@ class BaseDataset:
         Args:
             new_data (List): new value that the attribute 'data' will have.
         """
-        self.errors.type_check("new_data", new_data, list)
+        self._errors.type_check("new_data", new_data, list)
         self._data = new_data
 
     @property
@@ -64,7 +65,7 @@ class BaseDataset:
             new_targets (List): new value that the attribute 'target'
             will have.
         """
-        self.errors.type_check("new_targets", new_targets, list)
+        self._errors.type_check("new_targets", new_targets, list)
         self._targets = new_targets
 
     def _read_data_file(self) -> None:
@@ -91,14 +92,16 @@ class BaseDataset:
         if self._labels_path is not None:
             with open(self._labels_path, "r") as file:
                 csv_reader = csv.reader(file)
+                temp_targets = []
                 for row in csv_reader:
-                    self._targets.append(row)
-            data = []
+                    temp_targets.append(row)
+                self.targets = temp_targets
             data_dict = {filename: data for data, filename in self.data}
-            for index, target in enumerate(self._targets):
+            temp_data = []
+            for index, target in enumerate(self.targets):
                 if index != 0:  # because first row contains names of columns
-                    data.append(data_dict[target[1]])
-            self.data = copy.deepcopy(data)
+                    temp_data.append(data_dict[target[1]])
+            self.data = copy.deepcopy(temp_data)
             self.targets = [item[2] for item in self.targets]
         else:
             self.data = [image for image, _ in self.data]
@@ -109,13 +112,15 @@ class BaseDataset:
         In case of eager loading the data stores a list of data points,
         otherwise the data list would consist of directories.
         """
+        temp_data = []
         for filename in os.listdir(self._root):
             path = os.path.join(self._root, filename)
             if self._strategy == "lazy":
-                self._data.append((path, filename))
+                temp_data.append((path, filename))
             elif self._strategy == "eager":
                 image = self._read_data_file(path)
-                self._data.append((image, filename))
+                temp_data.append((image, filename))
+        self.data = temp_data
         self._csv_to_labels()
 
     def load_data(
@@ -138,16 +143,16 @@ class BaseDataset:
         Raises:
             ValueError: _description_
         """
-        self.errors.type_check("root", root, str)
-        self.errors.type_check("strategy", strategy, str)
-        self.errors.value_check("strategy", strategy, "lazy", "eager")
-        self.errors.type_check("format", format, str)
-        self.errors.value_check("format", format, "csv", "hierarchical")
+        self._errors.type_check("root", root, str)
+        self._errors.type_check("strategy", strategy, str)
+        self._errors.value_check("strategy", strategy, "lazy", "eager")
+        self._errors.type_check("format", format, str)
+        self._errors.value_check("format", format, "csv", "hierarchical")
         if format != "csv" and labels_path is not None:
             raise ValueError(
                 "Labels path should only be provided when the format is 'csv'."
             )
-        self.errors.type_check("labels_path", labels_path, str, type(None))
+        self._errors.type_check("labels_path", labels_path, str, type(None))
 
         self._root = root
         self._strategy = strategy
@@ -164,32 +169,30 @@ class BaseDataset:
             return data
 
     def __getitem__(self, index: int) -> List | tuple:
-        if not bool(self._data):
+        if not bool(self.data):
             raise ValueError("No data available.")
-        self.errors.type_check("index", index, int)
+        self._errors.type_check("index", index, int)
         try:
             if self._strategy == "eager":
-                data = self._data[index]
+                data = self.data[index]
             elif self._strategy == "lazy":
-                file_dir = self._data[index]
+                file_dir = self.data[index]
                 data = self._read_data_file(file_dir)
             return self._get_item_format_helper(data, index)
         except IndexError:
             raise IndexError("Index out of range.")
 
     def __len__(self) -> int:
-        return len(self._data)
+        return len(self.data)
 
-    def train_test_split(
-        self, train_size: float, shuffle: bool
-    ) -> Dataset:
-        if not bool(self._data):
+    def train_test_split(self, train_size: float, shuffle: bool) -> Dataset:
+        if not bool(self.data):
             raise ValueError(
                 "Unable to perform a train-test split because no data \
 has been loaded in the dataset yet."
             )
-        self.errors.type_check("shuffle", shuffle, bool)
-        self.errors.type_check("train_size", train_size, float)
+        self._errors.type_check("shuffle", shuffle, bool)
+        self._errors.type_check("train_size", train_size, float)
 
         data_len = len(self)
         train_len = int(data_len * train_size)
@@ -204,7 +207,7 @@ has been loaded in the dataset yet."
         targets = self.targets
 
         if shuffle:
-            if bool(self._targets):
+            if bool(self.targets):
                 zipped_data = list(zip(data, targets))
                 shuffled_data = random.sample(zipped_data, data_len)
                 data, targets = map(list, zip(*shuffled_data))
@@ -214,7 +217,7 @@ has been loaded in the dataset yet."
         train.data = data[:train_len]
         test.data = data[train_len::]
 
-        if bool(self._targets):
+        if bool(self.targets):
             train.targets = targets[:train_len]
             test.targets = targets[train_len::]
 

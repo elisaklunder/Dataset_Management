@@ -20,6 +20,8 @@ class ClassificationDataset(BaseDataset):
             self._hierarchical_load_data()
 
     def _hierarchical_load_data(self) -> None:
+        temp_data = []
+        temp_targets = []
         for class_name in os.listdir(self._root):
             if class_name != ".DS_Store":
                 class_dir = os.path.join(self._root, class_name)
@@ -27,11 +29,11 @@ class ClassificationDataset(BaseDataset):
                     if filename == ".DS_Store":
                         continue
                     path = os.path.join(class_dir, filename)
-
                     if self._strategy == "lazy":
-                        self._data.append(path)
-
+                        temp_data.append(path)
                     if self._strategy == "eager":
                         data_array = self._read_data_file(path)
-                        self._data.append(data_array)
-                    self._targets.append(class_name)
+                        temp_data.append(data_array)
+                    temp_targets.append(class_name)
+        self.data = temp_data
+        self.targets = temp_targets

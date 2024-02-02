@@ -16,13 +16,13 @@ from src.preprocessing_pipeline import PreprocessingPipeline
 
 
 def main():
-    image = AudioClassificationDataset()
+    image = ImageClassificationDataset()
     # audio = AudioClassificationDataset()
 
-    # JULIA
-    root_path = "/Users/juliabelloni/Desktop/oop/assignments/oop-final-project-group-7/audio_classification_csv/TRAIN"
+    # JULIA #
+    # root_path = "/Users/juliabelloni/Desktop/oop/assignments/oop-final-project-group-7/audio_classification_csv/TRAIN"
 
-    labels_path = "/Users/juliabelloni/Desktop/oop/assignments/oop-final-project-group-7/audio_classification_csv/TRAIN.csv"
+    # labels_path = "/Users/juliabelloni/Desktop/oop/assignments/oop-final-project-group-7/audio_classification_csv/TRAIN.csv"
     # root_path = "/Users/juliabelloni/Desktop/oop/assignments/oop-final-project-group-7/classification_hierarchy"
 
     # root_path = "/Users/juliabelloni/Desktop/oop/assignments/oop-final-project-group-7/classification_csv/images_poly"
@@ -30,23 +30,23 @@ def main():
     # labels_path = "/Users/juliabelloni/Desktop/oop/assignments/oop-final-project-group-7/classification_csv/poly_targets_regression.csv"
     # root_path = "/Users/juliabelloni/Desktop/oop/assignments/oop-final-project-group-7/audio"
 
-    # ELI
+    # ELI #
     # root_path = r"C:\Users\elikl\Documents\Università\yr2\2 - OOP\oop-final-project-group-7\image_regression_csv\images_poly"
-    # root_path = r"C:\Users\elikl\Documents\Università\yr2\2 - OOP\oop-final-project-group-7\image_classification_hierarchy"
-    # labels_path = r"C:\Users\elikl\Documents\Università\yr2\2 - OOP\oop-final-project-group-7\image_regression_csv\poly_targets_regression.csv"
+    root_path = r"C:\Users\elikl\Documents\Università\yr2\2 - OOP\oop-final-project-group-7\image_classification_hierarchy"
+    labels_path = r"C:\Users\elikl\Documents\Università\yr2\2 - OOP\oop-final-project-group-7\image_regression_csv\poly_targets_regression.csv"
 
-    ### TESTING DATASETS ###
+    # TESTING DATASETS #
     image.load_data(
-        root=root_path, strategy="lazy", format="csv"
+        root=root_path, strategy="eager", format="hierarchical"
     )
     print(len(image))
-    # print(image[3])
-    train, test = image.train_test_split(train_size=0.4, shuffle=True)
+    print(image[3])
+    train, test = image.train_test_split(train_size=0.4, shuffle=False)
     print(train[3])
     # TESTING BATCHLOADER FUNCTIONALITY
 
     batcher = BatchLoader()
-    batcher.create_batches(train, 51, "random", False)
+    batcher.create_batches(train, 51, "sequential", False)
     print(len(batcher))
 
     # show original image
