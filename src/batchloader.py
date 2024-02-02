@@ -8,7 +8,7 @@ from errors import Errors
 class BatchLoader:
     def __init__(self) -> None:
         """
-        COnstructor of the class
+        Constructor of the class.
         """
         self._batch_size = None
         self._dataset = None
@@ -18,10 +18,27 @@ class BatchLoader:
 
     ## ?? DOCSTRINGS ?? ##
     def __iter__(self) -> Iterator:
+        """_summary_
+
+        Returns:
+            _type_: _description_
+
+        Yields:
+            Iterator: _description_
+        """
         self._index = 0
         return self
 
     def __next__(self) -> List:
+        """
+        Magic method implementing the retrieval of the next batch of items from the dataset.
+
+        Raises:
+            StopIteration: If attempting to access a batch beyond the dataset's length.
+
+        Returns:
+            List: list containing the indexes of the items to be loaded.
+        """
         if self._index >= len(self):
             raise StopIteration
         batch = []
