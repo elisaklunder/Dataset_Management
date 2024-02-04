@@ -120,15 +120,9 @@ The following are the specific design choices for each class:
 **PreprocessingABC**
 - __ call __ = magic method defined in the abc class since each preprocessing step should be a callable object. Implementing this functionality in the abstract base class allows to have a general behviour across all the classes that need to carry out preprocessing.
 - _preprocessing_logic = needs to be implemented n the concrete class.
-- _preprocessing =  s ince image-with-target and audio-without-target have a similar structure (as shown in the table below), the code implements this private method to differentiate the actual data to be processed from the rest. This meethod is private since the user does not need to directly access it, since the functionalities of this method will be showcased anyway when the object is instantiated as a callable. 
+- _preprocessing =  since image-with-target and audio-without-target have a similar structure (as shown in the table below), the code implements this private method to differentiate the actual data to be processed from the rest. This meethod is private since the user does not need to directly access it, since the functionalities of this method will be showcased anyway when the object is instantiated as a callable.
 
-Images
-Audio
-np.ndarray
-(samples, sampling rate) - tuple
-(np.ndarray, target) - tuple
-((samples, sampling rate), target)
-
+![image](https://github.com/rug-oop-2023/oop-final-project-group-7/assets/152076677/05f57b81-83f0-41d6-ab9b-42a79f8977e1)
 
 
 **PitchShifting**
