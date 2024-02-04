@@ -14,14 +14,14 @@ class ClassificationDataset(BaseDataset):
         self,
         root: str,
         strategy: str,
-        format: str = "csv",
+        format: str,
         labels_path: str = None,
     ) -> None:
         """
         Public method, overriding the method in the Basedataset. It implements
         the possibility to load data when the files are in hierarchical
-        folders, by keeping everything that was implemented in the parent
-        class.
+        folders, while also keeping everything that was implemented in the
+        parent class.
 
         Args:
             root (str): root (str): directory indicating a path to the data to
@@ -42,6 +42,10 @@ class ClassificationDataset(BaseDataset):
             self._hierarchical_load_data()
 
     def _hierarchical_load_data(self) -> None:
+        """
+        Private method that implements the loading of the data when the files
+        are organized in hierarchical subfolders
+        """
         temp_data = []
         temp_targets = []
         for class_name in os.listdir(self._root):
