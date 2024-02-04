@@ -100,7 +100,7 @@ class BatchLoader:
             indexes = random.sample(indexes, len(indexes))
 
         for i in range(0, len(dataset), batch_size):
-            self._batches.append(indexes[i : i + batch_size])
+            self._batches.append(indexes[i: i + batch_size])
 
         if len(dataset) % batch_size != 0 and discard_last_batch:
             self._batches.pop()
