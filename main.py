@@ -18,6 +18,7 @@ from src.preprocessing_pipeline import PreprocessingPipeline
 
 # IT TAKES AROUND 2 MINUTE TO RUN THE MAIN
 
+
 def main():
     # # DATASETS LOADING # #
     # In this first section we showcase the loading of data using our four
