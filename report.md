@@ -1,23 +1,8 @@
 # Report
+# should we have getters setters for all private ones? even for attributes we just use to compare?
 
-# should data and labels (when there are labels) be two different lists or one single one or a dictionary or smth
-
-# which attributes should be private/bublic? (especially root, data, labels)
-
-should we have getters setters for all private ones? even for attributes we just use to compare?
-
-should the user be allowed to change one data point/ one target?
-
-do all csv files have in position [0] the index?? always?????
-do all csv start with a row of column names?
-
-# (in the hierarchical thing) if the classes need to be in the root, how tf do we recognize them??
-
-# how are things getting appended in the labels list, both in csv format and hierarchical
-
-# -lazy loader how does it work? should it have a load_batch function or do it all in load_data? or maybe we use open/load in the libraries themselves?
-
-# should train test split work so that it only splits the already loaded data? 
-
-# for eli
-why cant I install librosa?
+**Overview**
+The implemeted code has 3 main parts:
+- Loading the data
+- Loading the data in batches 
+- Preprocessing the loaded 
