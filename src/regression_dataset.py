@@ -13,13 +13,13 @@ class RegressionDataset(BaseDataset):
         self,
         root: str,
         strategy: str,
-        format: str = "csv",
+        format: str,
         labels_path: str = None,
     ):
         if format == "hierarchical":
             raise ValueError(
-                "A regression dataset can't be organized in\
-hierarchical structure"
+                "A regression dataset can't be organized in \
+a hierarchical folder structure"
             )
         super().load_data(root, strategy, format, labels_path)
 

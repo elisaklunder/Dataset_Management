@@ -134,7 +134,7 @@ class BaseDataset(BaseDatasetABC):
         self,
         root: str,
         strategy: str,
-        format: str = "csv",
+        format: str,
         labels_path: str = None,
     ) -> None:
         """
