@@ -1,13 +1,6 @@
 # ELI
 
-    img_regr_root = r"C:\Users\elikl\Documents\Università\yr2\2 - OOP\oop-final-project-group-7\image_regression_csv\images_poly"
-    img_regr_labels_path = r"C:\Users\elikl\Documents\Università\yr2\2 - OOP\oop-final-project-group-7\image_regression_csv\poly_targets_regression.csv"
+    yourpath = r"C:\Users\elikl\Documents\Università\yr2\2 - OOP\oop-final-project-group-7"
 
 # JULS
-
-    aud_clas_dataset = AudioClassificationDataset()
-    aud_clas_root = "/Users/juliabelloni/Desktop/oop/assignments/oop-final-project-group-7/audio_classification_hierarchy"
-
-    aud_regr_dataset = AudioRegressionDataset()
-    aud_regr_root = "/Users/juliabelloni/Desktop/oop/assignments/oop-final-project-group-7/audio_regression_csv/TRAIN"
-    aud_regr_labels_path = "/Users/juliabelloni/Desktop/oop/assignments/oop-final-project-group-7/audio_regression_csv/TRAIN.csv"
+    yourpath = "/Users/juliabelloni/Desktop/oop/assignments/oop-final-project-group-7"

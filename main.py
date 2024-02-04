@@ -37,9 +37,9 @@ def main():
 
     # IMAGE REGRESSION #
     img_regr_dataset = ImageRegressionDataset()
-    img_regr_root = "yourpath/image_regression_csv/images_poly"
+    img_regr_root = "yourpath/oop-final-project-group-7/image_regression_csv/images_poly"
     img_regr_labels_path = (
-        "yourpath/image_regression_csv/poly_targets_regression.csv"
+        "yourpath/oop-final-project-group-7/image_regression_csv/poly_targets_regression.csv"
     )
 
     # Eager loading without labels
@@ -73,7 +73,7 @@ def main():
 
     # IMAGE CLASSIFICATION #
     img_clas_dataset = ImageClassificationDataset()
-    img_clas_root = "yourpath/image_classification_hierarchy"
+    img_clas_root = "yourpath/oop-final-project-group-7/image_classification_hierarchy"
 
     # Lazy loading (the labels are automatically generated)
     img_clas_dataset.load_data(
@@ -99,8 +99,8 @@ def main():
     # AUDIO REGRESSION #
 
     aud_regr_dataset = AudioRegressionDataset()
-    aud_regr_root = "yourpath/audio_regression_csv/TRAIN"
-    aud_regr_labels_path = "yourpath/audio_regression_csv/TRAIN.csv"
+    aud_regr_root = "yourpath/oop-final-project-group-7/audio_regression_csv/TRAIN"
+    aud_regr_labels_path = "yourpath/oop-final-project-group-7/audio_regression_csv/TRAIN.csv"
 
     # Eeager loading without targets
     aud_regr_dataset.load_data(
@@ -133,7 +133,7 @@ def main():
     print(f"The target is:' {target}'")
 
     # Splitting in train and test
-    aud_regr_train, aud_regr_test = img_clas_dataset.train_test_split(
+    aud_regr_train, aud_regr_test = aud_regr_dataset.train_test_split(
         train_size=0.6, shuffle=False
     )
     print(f"Size of the audio regression dataset: {len(aud_regr_dataset)}")
@@ -142,7 +142,7 @@ def main():
 
     # AUDIO CLASSIFICATION #
     aud_clas_dataset = AudioClassificationDataset()
-    aud_clas_root = "yourpath/audio_classification_hierarchy"
+    aud_clas_root = "yourpath/oop-final-project-group-7/audio_classification_hierarchy"
 
     # Lazy loading (targets are generated automatically)
     aud_clas_dataset.load_data(
@@ -188,7 +188,7 @@ def main():
         discard_last_batch=False,
     )
 
-    print(f"Number of batches created: {len(img_batcher)}")
+    print(f"Number of batches of images created: {len(img_batcher)}")
     # 6000/130=46.2=47 becasue discard_last_batch=False
 
     img_batch = next(img_batcher)
