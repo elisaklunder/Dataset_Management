@@ -3,9 +3,10 @@ from typing import Iterator, List
 
 from base_dataset import BaseDataset
 from errors import Errors
+from abc_batchloader import BatchLoaderABC
 
 
-class BatchLoader:
+class BatchLoader(BatchLoaderABC):
     def __init__(self) -> None:
         """
         Constructor of the class.

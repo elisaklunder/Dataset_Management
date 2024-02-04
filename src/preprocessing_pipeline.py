@@ -29,8 +29,8 @@ class PreprocessingPipeline:
         return self._apply_pipeline(data)
 
     def _apply_pipeline(self, data: Any) -> Any:
-        """_summary_
-
+        """
+        Allows for multiple preprocessing tecniques to be applied in series
         Args:
             data (Any): data to be preprocessed.
 
