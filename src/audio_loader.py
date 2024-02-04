@@ -17,7 +17,7 @@ class AudioLoader(DataLoaderABC):
 
         Raises:
             NoBackendError: This is an error from librosa. The program is
-            just re-raising it, whenever the file cannot be opened or is
+            re-raising it whenever the file cannot be opened or is
             in the wrong format
 
         Returns:

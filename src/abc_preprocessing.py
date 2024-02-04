@@ -1,14 +1,18 @@
 from abc import ABC, abstractmethod
+from typing import Any
 
 import numpy as np
 
 
 class PreprocessingTechniqueABC(ABC):
     @abstractmethod
-    def _preprocessing_logic():
+    def _preprocessing_logic() -> np.ndarray | tuple:
         """
         Abstract method that impleents the logic of the preprocessing step to
         be taken.
+
+        Returns:
+            np.ndarray | tuple: processed data.
         """
         pass
 

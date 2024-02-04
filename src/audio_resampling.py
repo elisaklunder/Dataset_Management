@@ -12,6 +12,10 @@ class Resampling(PreprocessingTechniqueABC):
         Args:
             new_sampling_rate (int): integer value indicating what the new
             sampling rate of the signal will be
+
+        Raises:
+            TypeError: if new_sampling_rate argument is not an int
+            ValueError: if new_sampling_rate argument is negative
         """
         error = Errors()
         error.type_check("new_sampling_rate", new_sampling_rate, int)
@@ -29,7 +33,7 @@ class Resampling(PreprocessingTechniqueABC):
 
         Raises:
             ValueError: This is an error from librosa. The program is
-            just re-raising it, whenever the data is in the wrong format
+            re-raising it whenever the data is in the wrong format.
 
         Returns:
             tuple: audio data with the new samples and the relative sampling

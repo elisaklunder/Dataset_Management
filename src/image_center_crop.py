@@ -12,6 +12,12 @@ class ImageCenterCrop(PreprocessingTechniqueABC):
         Args:
             width (int): integer value specifying the width of the crop.
             height (int): integer value specifying the height of the crop.
+            
+        Raises: 
+            TypeError: if the width argument is not an int
+            TypeError: if the length argument is not an int.
+            ValueError: if the width is negative.
+            ValueError: if the length is negative.
         """
         self._errors = Errors()
         self._errors.type_check("width", width, int)

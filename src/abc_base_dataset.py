@@ -1,23 +1,22 @@
-from abc import ABC, abstractproperty, abstractmethod
+from abc import ABC, abstractmethod, abstractproperty
+from typing import TypeVar
+
+BaseDatasetABC = TypeVar("BaseDatasetABC", bound="BaseDatasetABC")
 
 
 class BaseDatasetABC(ABC):
-
     @abstractmethod
-    def load_data(self, root: str) -> None:
-        # root maybe not
+    def load_data(self) -> None:
         """
         Abstract method that will load the data once it is implemented in the
         as a concrete class.
-
-        Args:
-            root (str): directory indicating a path to the data to be loaded
         """
         pass
 
     @abstractmethod
-    def train_test_split(self, train_size: float, shuffle: bool):
-        # idk the type hints for this shit
+    def train_test_split(
+        self, train_size: float, shuffle: bool
+    ) -> BaseDatasetABC:
         """
         Abstract method for performing the train test split.
 

@@ -42,6 +42,9 @@ class BaseDataset(BaseDatasetABC):
 
         Args:
             new_data (List): new value that the attribute 'data' will have.
+
+        Raises:
+            TypeError: if new_data argument is not of the type list
         """
         self._errors.type_check("new_data", new_data, list)
         self._data = new_data
@@ -65,6 +68,9 @@ class BaseDataset(BaseDatasetABC):
         Args:
             new_targets (List): new value that the attribute 'target'
             will have.
+
+        Raises:
+            TypeError: if new_trgets argument is not of the type list
         """
         self._errors.type_check("new_targets", new_targets, list)
         self._targets = new_targets
@@ -75,7 +81,7 @@ class BaseDataset(BaseDatasetABC):
 
         Raises:
             NotImplementedError: the method is not implemented and
-            should not be used when accessed directly from thid object.
+            should not be used when accessed directly from this object.
         """
         raise NotImplementedError(
             "Method to read in the data needs to be implemented"
@@ -148,8 +154,16 @@ class BaseDataset(BaseDatasetABC):
             labels, if any. Defaults to None.
 
         Raises:
-            ValueError: if the specified structure (hierarchical) has a path
-            specified.
+            TypeError: if the root argument is not a string.
+            TypeError: if the strategy argument is not a string.
+            TypeError: if the format argument is not a string.
+            TypeError: if the labels_path argument is not a string or None.
+            ValeError: if the strategy argument is not one of the expected
+            strings.
+            ValueError: if the format argument is not one of the expected
+            strings
+            ValueError: if the specified structure is hierarchical but the
+            user has specified a path for the csv file.
         """
         self._errors.type_check("root", root, str)
         self._errors.type_check("strategy", strategy, str)
@@ -198,7 +212,7 @@ class BaseDataset(BaseDatasetABC):
         Raises:
             ValueError: if there is no data contained in the self.data
             attribute, namely the data has not been loaded or is an empty list.
-
+            TypeError: if the index argument is not an int.
             IndexError: if the index is out of the range of the 'data'
             attribute.
 
@@ -242,6 +256,8 @@ class BaseDataset(BaseDatasetABC):
         Raises:
             ValueError: if there is no data contained in the self.data
             attribute, namely the data has not been loaded or is an empty list.
+            TypeError: if the suffle argument is not a boolean value.
+            TypeError: if the train_size argument is not a float.
 
         Returns:
             Dataset: one Dataset object for the train and one for the test.

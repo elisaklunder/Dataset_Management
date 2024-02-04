@@ -1,15 +1,19 @@
 from abc import ABC, abstractmethod
+from typing import Any
 
 
 class DataLoaderABC(ABC):
     @abstractmethod
-    def _read_data_file():
+    def _read_data_file() -> Any:
         """
-        Method implemented by the concrete class
+        Abstract method implemented by the concrete class
+
+        Returns:
+            Any: the data that has been read
         """
         pass
 
-    def __call__(self, path: str) -> None:
+    def __call__(self, path: str) -> Any:
         """
         Method implementing the object as a callable
 
@@ -18,6 +22,6 @@ class DataLoaderABC(ABC):
             the data
 
         Returns:
-            None
+            Any: the data that has been loaded from the path
         """
         return self._read_data_file(path)

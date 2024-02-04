@@ -16,6 +16,13 @@ class ImagePatching(PreprocessingTechniqueABC):
             color (str): string indicating color of the patch
             height (int): integer showing the height of the patch
             width (int): integer showing the width of the patch
+
+        Raises:
+            TypeError: if the color argument is not a string.
+            TypeError: if the width argument is not an int
+            TypeError: if the length argument is not an int.
+            ValueError: if the width is negative.
+            ValueError: if the length is negative.
         """
         self._errors = Errors()
         self._errors.type_check("color", color, str)

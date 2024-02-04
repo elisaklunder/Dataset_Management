@@ -12,6 +12,10 @@ class PitchShifting(PreprocessingTechniqueABC):
         Args:
             pitch_shift (int): integer value indicating the value of the
             pitch shifting
+
+        Raises:
+            TypeError: if the argument pitch_shift is not an int.
+            ValueError: if the argument pitch_shift is negative.
         """
         self._error = Errors()
         self._error.type_check("pitch_shift", pitch_shift, int)

@@ -70,6 +70,18 @@ class BatchLoader:
 
             discard_last_batch (bool): bool indicating whether to discard the
             last batch if it is smaller than the others.
+
+        Raises:
+            TypeError: if the dataset argument is not an instance of the class
+            BaseDataset (or a subclass of this class).
+            TypeError: if the batch_size argument is not an int.
+            TypeError: if the batch_style argument is not a string.
+            TypeError: if the discard_last_batch argument is no a boolean
+            value.
+            ValueError: if the batch_size argument is negative.
+            ValueError: if the batch_style argument is not one of the expected
+            strings.
+
         """
         self._errors.type_check("dataset", dataset, BaseDataset)
         self._errors.type_check("batch_size", batch_size, int)
@@ -88,7 +100,7 @@ class BatchLoader:
             indexes = random.sample(indexes, len(indexes))
 
         for i in range(0, len(dataset), batch_size):
-            self._batches.append(indexes[i: i + batch_size])
+            self._batches.append(indexes[i : i + batch_size])
 
         if len(dataset) % batch_size != 0 and discard_last_batch:
             self._batches.pop()
