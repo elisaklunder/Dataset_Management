@@ -72,12 +72,28 @@ def main():
     aud_clas_dataset = AudioClassificationDataset()
     aud_clas_root = "/Users/juliabelloni/Desktop/oop/assignments/oop-final-project-group-7/audio_classification_hierarchy"
 
-    # aud_clas_labels_path = "/Users/juliabelloni/Desktop/oop/assignments/oop-final-project-group-7/audio_regression_csv/TRAIN.csv"
+    aud_regr_dataset = AudioRegressionDataset()
+    aud_regr_root = "/Users/juliabelloni/Desktop/oop/assignments/oop-final-project-group-7/audio_regression_csv/TRAIN"
+    aud_regr_labels_path = "/Users/juliabelloni/Desktop/oop/assignments/oop-final-project-group-7/audio_regression_csv/TRAIN.csv"
 
 
-    # Eeager Loading
+
+    # LAZY LOADING
+    # loading data from .csv format lazily
+    aud_regr_dataset.load_data(
+        root=aud_regr_root, strategy="lazy", format="csv", labels_path=aud_regr_labels_path
+    )
+    # play original audio
+    print(aud_regr_dataset[3])
+    audio, target = aud_regr_dataset[3]
+    sample, sr = audio
+    sd.play(sample, sr)
+    sd.wait()
+    print(f"The target is:' {target}'")
+
+    # loading dataset in hierarchical format lazily
     aud_clas_dataset.load_data(
-        root=aud_clas_root, strategy="eager", format="hierarchical"
+        root=aud_clas_root, strategy="lazy", format="hierarchical"
     )
 
     # play original audio
@@ -88,9 +104,10 @@ def main():
     sd.wait()
     print(f"The target is:' {target}'")
 
-    # LAZY LOADING
+    # EAGER LOADING
+    # reloading dataset in hierarchical format eagerly
     aud_clas_dataset.load_data(
-        root=aud_clas_root, strategy="lazy", format="hierarchical"
+        root=aud_clas_root, strategy="eager", format="hierarchical"
     )
 
     # play original audio
@@ -184,6 +201,7 @@ def main():
     processed_audio_samples, processed_audio_s_rate = aud_pipeline(audio)
 
     # play audio after pitch shifting and resampling
+    print("Audio signal after preprocessing steps were applied")
     sd.play(processed_audio_samples, processed_audio_s_rate)
     sd.wait()
 
