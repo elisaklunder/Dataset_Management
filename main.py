@@ -4,6 +4,7 @@ import sys
 import matplotlib.pyplot as plt
 import numpy as np
 from PIL import Image
+import sounddevice as sd
 
 sys.path.append(os.getcwd() + "/src/")
 from src.audio_classification_dataset import AudioClassificationDataset
@@ -24,7 +25,7 @@ from src.preprocessing_pipeline import PreprocessingPipeline
 
 def main():
 
-    # # DATASETS #
+    # # DATASETS # #
 
     # # IMAGE REGRESSION DATASET
     # img_regr_dataset = ImageRegressionDataset()
@@ -64,24 +65,41 @@ def main():
     # print(f"Size of the image test dataset: {len(img_test)}")
     # # 4000
 
+    # AUDIO DATASETS
+    # in the following section we will showcase the loading of two types of datasets: one in a hierarchical structure and one in a .csv format. We show the eager loading only once as it is computationally more expensive to perform. Also the the Batchloading and the Pipeline are shown only once since they work in the same way regardless of the initial structure of the data.
+
     # AUDIO CLASSIFICATION DATASET
     aud_clas_dataset = AudioClassificationDataset()
-    aud_clas_root = "/Users/juliabelloni/Desktop/oop/assignments/oop-final-project-group-7/audio_classification_csv/TRAIN"
+    aud_clas_root = "/Users/juliabelloni/Desktop/oop/assignments/oop-final-project-group-7/audio_classification_hierarchy"
 
-    aud_clas_labels_path = "/Users/juliabelloni/Desktop/oop/assignments/oop-final-project-group-7/audio_classification_csv/TRAIN.csv"
+    # aud_clas_labels_path = "/Users/juliabelloni/Desktop/oop/assignments/oop-final-project-group-7/audio_regression_csv/TRAIN.csv"
 
 
-    # EAGER LOADING
+    # Eeager Loading
     aud_clas_dataset.load_data(
         root=aud_clas_root, strategy="eager", format="hierarchical"
     )
-    print(aud_clas_dataset[3]) # need to play the audio somehow
+
+    # play original audio
+    print(aud_clas_dataset[3])
+    audio, target = aud_clas_dataset[3]
+    sample, sr = audio
+    sd.play(sample, sr)
+    sd.wait()
+    print(f"The target is:' {target}'")
 
     # LAZY LOADING
     aud_clas_dataset.load_data(
         root=aud_clas_root, strategy="lazy", format="hierarchical"
     )
-    print(aud_clas_dataset[3]) # need to play the audio somehow
+
+    # play original audio
+    print(aud_clas_dataset[3])
+    audio, target = aud_clas_dataset[3]
+    sample, sr = audio
+    sd.play(sample, sr)
+    sd.wait()
+    print(f"The target is:' {target}'")
 
     # SPLITTING IN TRAIN AND TEST WITH SHUFFLING
     aud_train, aud_test = aud_clas_dataset.train_test_split(
@@ -119,7 +137,7 @@ def main():
     aud_batcher = BatchLoader()
     aud_batcher.create_batches(
         dataset=aud_train,
-        batch_size=#set something that makes sense,
+        batch_size=100,  # set something that makes sense,
         batch_style="random",
         discard_last_batch=True,
     )
@@ -155,17 +173,19 @@ def main():
     # preprocessed_image_show.show()  # show preprocessed image
 
     # AUDIO PREPROCESSING PIPELINE
-    audio, target = aud_clas_dataset[1]
-    # show audio
+    audio, target = aud_clas_dataset[10]
 
     # define pipeline
     pitch_shift = PitchShifting(100)
-    resample = Resampling(2000)
+    resample = Resampling(6000)
     aud_pipeline = PreprocessingPipeline(pitch_shift, resample)
 
     # apply pipeline
-    preprocessed_audio = aud_pipeline(audio)
-    # show audio
+    processed_audio_samples, processed_audio_s_rate = aud_pipeline(audio)
+
+    # play audio after pitch shifting and resampling
+    sd.play(processed_audio_samples, processed_audio_s_rate)
+    sd.wait()
 
 
 if __name__ == "__main__":
