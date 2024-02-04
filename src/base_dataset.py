@@ -6,11 +6,12 @@ import random
 from typing import List, TypeVar
 
 from errors import Errors
+from src.abc_base_dataset import BaseDatasetABC
 
 Dataset = TypeVar("Dataset", bound="BaseDataset")
 
 
-class BaseDataset:
+class BaseDataset(BaseDatasetABC):
     def __init__(self) -> None:
         """
         Constructor of the class.

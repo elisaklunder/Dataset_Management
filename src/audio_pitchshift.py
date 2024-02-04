@@ -1,7 +1,7 @@
 # import librosa
 
 from errors import Errors
-from preprocessing_ABC import PreprocessingTechniqueABC
+from src.abc_preprocessing import PreprocessingTechniqueABC
 
 
 class PitchShifting(PreprocessingTechniqueABC):

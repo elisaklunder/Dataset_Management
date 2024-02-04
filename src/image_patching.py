@@ -4,7 +4,7 @@ import numpy as np
 from PIL import Image
 
 from errors import Errors
-from preprocessing_ABC import PreprocessingTechniqueABC
+from src.abc_preprocessing import PreprocessingTechniqueABC
 
 
 class ImagePatching(PreprocessingTechniqueABC):

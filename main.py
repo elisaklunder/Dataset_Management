@@ -152,8 +152,8 @@ def main():
     image_show.show()  # show original image
 
     # define pipeline
-    crop = ImageCenterCrop(100, 100)
-    patch = ImagePatching("yellow", 20, 20)
+    crop = ImageCenterCrop(70, 100)
+    patch = ImagePatching("red", 30, 30)
     img_pipeline = PreprocessingPipeline(crop, patch)
 
     # apply pipeline
