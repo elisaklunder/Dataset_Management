@@ -10,12 +10,13 @@ class RegressionDataset(BaseDataset):
         super().__init__()
         self._wrong_format_error()
 
-    def _wrong_format_error(self):
+    def load_data(self):
         if self._format == "hierarchical":
             raise ValueError(
                 "A regression dataset can't be organized in\
 hierarchical structure"
             )
+        super().load_data()
 
 
 def main():
