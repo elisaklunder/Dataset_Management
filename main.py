@@ -16,6 +16,7 @@ from src.image_patching import ImagePatching
 from src.image_regression_dataset import ImageRegressionDataset
 from src.preprocessing_pipeline import PreprocessingPipeline
 
+# IT TAKES AROUND 2 MINUTE TO RUN THE MAIN
 
 def main():
     # # DATASETS LOADING # #
@@ -37,9 +38,9 @@ def main():
 
     # IMAGE REGRESSION #
     img_regr_dataset = ImageRegressionDataset()
-    img_regr_root = "yourpath/oop-final-project-group-7/image_regression_csv/images_poly"
+    img_regr_root = "yourpath/image_regression_csv/images_poly"
     img_regr_labels_path = (
-        "yourpath/oop-final-project-group-7/image_regression_csv/poly_targets_regression.csv"
+        "yourpath/image_regression_csv/poly_targets_regression.csv"
     )
 
     # Eager loading without labels
@@ -73,7 +74,7 @@ def main():
 
     # IMAGE CLASSIFICATION #
     img_clas_dataset = ImageClassificationDataset()
-    img_clas_root = "yourpath/oop-final-project-group-7/image_classification_hierarchy"
+    img_clas_root = "yourpath/image_classification_hierarchy"
 
     # Lazy loading (the labels are automatically generated)
     img_clas_dataset.load_data(
@@ -99,8 +100,8 @@ def main():
     # AUDIO REGRESSION #
 
     aud_regr_dataset = AudioRegressionDataset()
-    aud_regr_root = "yourpath/oop-final-project-group-7/audio_regression_csv/TRAIN"
-    aud_regr_labels_path = "yourpath/oop-final-project-group-7/audio_regression_csv/TRAIN.csv"
+    aud_regr_root = "yourpath/audio_regression_csv/TRAIN"
+    aud_regr_labels_path = "yourpath/audio_regression_csv/TRAIN.csv"
 
     # Eeager loading without targets
     aud_regr_dataset.load_data(
@@ -142,7 +143,7 @@ def main():
 
     # AUDIO CLASSIFICATION #
     aud_clas_dataset = AudioClassificationDataset()
-    aud_clas_root = "yourpath/oop-final-project-group-7/audio_classification_hierarchy"
+    aud_clas_root = "yourpath/audio_classification_hierarchy"
 
     # Lazy loading (targets are generated automatically)
     aud_clas_dataset.load_data(
