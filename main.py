@@ -31,7 +31,7 @@ def main():
     # hierarchical format done by the classification classes.
     # Datasets will be loaded eagerly once for images and once for audios
     # to showcase that functionality, but the rest of the loading will be done
-    # lazily because much more computationally manageable.
+    # lazily because it is much more computationally manageable.
 
     # # # # # # # # #
     # IMAGE DATASET #
