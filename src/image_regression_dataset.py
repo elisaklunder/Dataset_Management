@@ -10,4 +10,4 @@ class ImageRegressionDataset(RegressionDataset):
         """
         super().__init__()
         loader = ImageLoader()
-        RegressionDataset._read_data_file = loader
+        ImageRegressionDataset._read_data_file = loader

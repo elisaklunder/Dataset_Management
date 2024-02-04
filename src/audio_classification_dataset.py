@@ -11,4 +11,4 @@ class AudioClassificationDataset(ClassificationDataset):
         """
         super().__init__()
         loader = AudioLoader()
-        ClassificationDataset._read_data_file = loader
+        AudioClassificationDataset._read_data_file = loader

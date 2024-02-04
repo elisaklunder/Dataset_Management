@@ -10,4 +10,4 @@ class AudioRegressionDataset(RegressionDataset):
         """
         super().__init__()
         loader = AudioLoader()
-        RegressionDataset._read_data_file = loader
+        AudioRegressionDataset._read_data_file = loader

@@ -10,4 +10,4 @@ class ImageClassificationDataset(ClassificationDataset):
         """
         super().__init__()
         loader = ImageLoader()
-        ClassificationDataset._read_data_file = loader
+        ImageClassificationDataset._read_data_file = loader

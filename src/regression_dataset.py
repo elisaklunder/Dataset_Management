@@ -22,12 +22,3 @@ class RegressionDataset(BaseDataset):
 a hierarchical folder structure"
             )
         super().load_data(root, strategy, format, labels_path)
-
-
-def main():
-    dataset = RegressionDataset()
-    dataset.load_data(root="blabla", strategy="lazy", format="hierarchical")
-
-
-if __name__ == "__main__":
-    main()
