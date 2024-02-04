@@ -8,15 +8,20 @@ class RegressionDataset(BaseDataset):
 
     def __init__(self) -> None:
         super().__init__()
-        self._wrong_format_error()
 
-    def load_data(self):
-        if self._format == "hierarchical":
+    def load_data(
+        self,
+        root: str,
+        strategy: str,
+        format: str = "csv",
+        labels_path: str = None,
+    ):
+        if format == "hierarchical":
             raise ValueError(
                 "A regression dataset can't be organized in\
 hierarchical structure"
             )
-        super().load_data()
+        super().load_data(root, strategy, format, labels_path)
 
 
 def main():
