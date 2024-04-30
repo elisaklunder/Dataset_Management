@@ -1,7 +1,4 @@
-# REPORT
-
-## WORKLOAD DIVISION
-The workload was split equally between us two. We mostly worked together side by side during labs and at home. Some tasks that didn’t require important design choices were handled singularly (e.g. Julia handled implementing the audio loading and preprocessing, Elisa handled the main and the errors, Julia implemented docstrings, Elisa took care of type hints). However, for the most part the code was thought through and developed together.
+# README
 
 ## OVERVIEW OF THE CODE STRUCTURE AND INHERITANCES
 The functionalities implemented by the code are displayed in the main. The classes can be divided in three main categories:

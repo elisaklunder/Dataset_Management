@@ -1,6 +1,0 @@
-# ELI
-
-    yourpath = r"C:\Users\elikl\Documents\Università\yr2\2 - OOP\oop-final-project-group-7"
-
-# JULS
-    yourpath = "/Users/juliabelloni/Desktop/oop/assignments/oop-final-project-group-7"
